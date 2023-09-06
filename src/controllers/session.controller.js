@@ -33,9 +33,9 @@ class SessionController{
     async recoverPass (req,res){
         const {email,password} = req.body
         if (!email||!password) return res.status(400).send({status:"error", error:"Missing user credentials"})
-        const user = await userModel.findOne({email})
+        const user = await UsersDAO.findOne({email})
         if (!user) return res.status(400).send({status:"error",error:"Incorrect credentials"})
-        await userModel.updateOne({ _id: user._id}, { password: createHash(password) })    
+        await UsersDAO.updateOne({ _id: user._id}, { password: createHash(password) })    
         return res.status(200).send({status:"ok",message:"Contraseña actualizada"})
     }
     async currentUser(req,res){

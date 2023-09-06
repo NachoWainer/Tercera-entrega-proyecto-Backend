@@ -3,8 +3,8 @@ import local from "passport-local"
 import GitHubStrategy from "passport-github2"
 import "dotenv/config"
 
-import cartsModel from "../models/schemas/carts.schema.js"
-import {UsersDAO} from "../models/daos/users/users.dao.js"
+import {CartsDAO} from "../models/daos/carts/carts.dao.js"
+import {UsersDAO} from "../models/daos/users/users.dao.js";
 import { createHash, isValidPassword } from "../utils/utils.js"
 
 const LocalStrategy = local.Strategy
@@ -16,7 +16,7 @@ const initializedPassport = ()=>{
     callbackURL:`${process.env.GITHUB_CALLBACKURL}`
     },async(accessToken,refreshToken,profile,done)=>{
         try {
-            let user = await userModel.findOne({email:profile._json.email})
+            let user = await UsersDAO.findOne({email:profile._json.email})
             if(!user){
               let cart = {
                 "products": []
@@ -30,7 +30,7 @@ const initializedPassport = ()=>{
                     password:" ",
                     cart: newCart
                 }
-                let result = await userModel.create(newUser)
+                let result = await UsersDAO.create(newUser)
                 done(null,result)
             }else{
                 done(null,user)
@@ -49,7 +49,7 @@ const initializedPassport = ()=>{
 
         const {first_name,last_name,age} = req.body 
         try {
-            let user = await userModel.findOne({email:email})
+            let user = await UsersDAO.findOne({email:email})
             if (user) {
                 console.log("User already registered")
                 return done ("Error usuario registrado ya", error)
@@ -67,10 +67,10 @@ const initializedPassport = ()=>{
                 password: createHash(password),
                 cart: newCart
             }
-            let result = await userModel.create(newUser)
+            let result = await UsersDAO.create(newUser)
             return done(null,result)
         } catch (error) {
-            return done ("Error ususario", error)
+            return done ("Error usuario", error)
         }
     }
     ))
@@ -84,7 +84,7 @@ const initializedPassport = ()=>{
           },
           async (req, email, password, done) => { 
             try {
-              const user = await userModel.findOne({ email: email }); 
+              const user = await UsersDAO.findOne({ email: email }); 
               if (!user) {
                 return done(null, false);
     
@@ -101,7 +101,7 @@ const initializedPassport = ()=>{
         done(null,user._id)
     })
     passport.deserializeUser(async(id,done)=>{
-        let user = await userModel.findById(id)
+        let user = await UsersDAO.findById(id)
         done(null,user)
     })
     

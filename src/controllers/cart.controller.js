@@ -1,4 +1,4 @@
-import cartsModel from "../models/schemas/carts.schema.js"
+import CartsDAO from "../models/schemas/carts.schema.js"
 
 class CartController{
     async create(req,res){
@@ -6,7 +6,7 @@ class CartController{
             "products": []
           }
         try {
-            await cartsModel.create(cart)
+            await CartsDAO.create(cart)
             res.send({status:"success",message:"OK",value:cart})
             
         } catch (error) {
@@ -16,7 +16,7 @@ class CartController{
     async getCart (req,res){
         let id = req.params.cid
         try {
-            const cart = await cartsModel.findById(id).populate("products").lean()
+            const cart = await CartsDAO.findById(id).populate("products").lean()
             res.send({status:"success",message:"Carrito obtenido correctamente",value:cart})
         } catch (error) {
             res.send({status:"error",message:error,value:[]})}
@@ -26,14 +26,14 @@ class CartController{
         const cartId = req.params.cid;
         let productId = req.params.pid;
         try {
-            const cart = await cartsModel.findById(cartId);
+            const cart = await CartsDAO.findById(cartId);
 
             if (!cart) {
             return res.send(
                 { status: 'error', message: 'Carrito no encontrado', value: [] })
             }
             if (cart.products.length === 0) {
-                await cartsModel.updateOne(
+                await CartsDAO.updateOne(
                     {_id: cartId},
                     {$push:{products:{_id: productId, quantity:1 }}})
 
@@ -41,17 +41,17 @@ class CartController{
                     { status: 'success', message: 'producto agregado', value: [] })
             }
             else {
-                let aux = await cartsModel.findOne(
+                let aux = await CartsDAO.findOne(
                     { _id: cartId, "products._id": productId });
                 if (aux == null){
-                    await cartsModel.updateOne(
+                    await CartsDAO.updateOne(
                         {_id: cartId},
                         {$push:{products:{_id: productId, quantity:1 }}})
                     return res.send(
                         { status: 'success', message: 'producto agregado', value: [] })
                 }
                 else {
-                    await cartsModel.updateOne(
+                    await CartsDAO.updateOne(
                         { _id: cartId, "products._id": productId },
                         { $inc: { "products.$.quantity": 1 }})
                     return res.send(
@@ -67,7 +67,7 @@ class CartController{
         const cartId = req.params.cid;
         let productId = req.params.pid;
         try {
-            const cart = await cartsModel.findById(cartId);
+            const cart = await CartsDAO.findById(cartId);
       
             if (!cart) {
                 return res.send(
@@ -79,14 +79,14 @@ class CartController{
             }
       
             else {
-                let aux = await cartsModel.findOne(
+                let aux = await CartsDAO.findOne(
                 { _id: cartId, "products._id": productId });
                 if (aux == null){
                     return res.send(
                     { status: 'success', message: 'El producto no esta en el carrito', value: [] })
                 }
               else {
-                await cartsModel.updateOne(
+                await CartsDAO.updateOne(
                     { _id: cartId},
                     { $pull: { products: { _id: productId } } })
                 return res.send(
@@ -104,7 +104,7 @@ class CartController{
         let productos = req.body 
         const cartId = req.params.cid;
         try {
-            const cart = await cartsModel.findById(cartId);
+            const cart = await CartsDAO.findById(cartId);
             if (!cart) {
             return res.send(
                 { status: "error", message: "Carrito no encontrado" });
@@ -114,14 +114,14 @@ class CartController{
                     {status:"success", message: "no hay productos a agregar"})
             }
             productos.forEach(async element => {
-                let aux = await cartsModel.findOne(
+                let aux = await CartsDAO.findOne(
                     { _id: cartId, "products._id": element.payload._id });
                 if (aux == null){
-                    await cartsModel.updateOne({_id: cartId},
+                    await CartsDAO.updateOne({_id: cartId},
                         {$push:{products:{_id: element.payload._id, quantity:1 }}})
                 }
                 else {
-                    await cartsModel.updateOne(
+                    await CartsDAO.updateOne(
                         { _id: cartId, "products._id": element.payload._id },
                         { $inc: { "products.$.quantity": 1 }})
                 } 
@@ -144,22 +144,22 @@ class CartController{
         const cartId = req.params.cid;
         const productId = req.params.pid;
         try {
-            const cart = await cartsModel.findById(cartId);
+            const cart = await CartsDAO.findById(cartId);
             if (!cart) {
             return res.send(
                 { status: "error", message: "Carrito no encontrado" });
             }
-            let aux = await cartsModel.findOne(
+            let aux = await CartsDAO.findOne(
                 { _id: cartId, "products._id": productId});
             if (aux == null){
-                await cartsModel.updateOne(
+                await CartsDAO.updateOne(
                     {_id: cartId},
                     {$push:{products:{_id: productId, quantity: cantidad }}})
                 return res.send(
                     { status: 'success', message: 'producto agregado', value: [] })   
             }
             else {
-                await cartsModel.updateOne(
+                await CartsDAO.updateOne(
                     { _id: cartId, "products._id": productId },
                     { "products.$.quantity": cantidad })
             } 
@@ -173,12 +173,12 @@ class CartController{
     async emptyCart(req,res){
         let CartId = req.params.cid
         try {
-            const cart = await cartsModel.findById(CartId);
+            const cart = await CartsDAO.findById(CartId);
             if (!cart) {
                 return res.send(
                     { status: "error", message: "Carrito no encontrado" });
             }
-            await cartsModel.updateOne(
+            await CartsDAO.updateOne(
                 { _id: CartId},
                 { $set: { products: [] } })
             res.send(
