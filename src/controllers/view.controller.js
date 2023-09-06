@@ -1,11 +1,13 @@
-import {ProductsDAO}  from '../models/daos/products/products.dao.js';
+import productsModel  from '../models/schemas/products.schema.js';
 import cartsModel from '../models/schemas/carts.schema.js';
-import {UsersDAO} from '../models/daos/users/users.dao.js';
+import usersModel from '../models/schemas/Users.model.js';
 import session from 'express-session';
+
 
 class ViewController{
     register (req,res){res.render("register")}
     login (req, res) {res.render("login")}
+    current (req, res) {res.render("current")}
     logout (req,res){
         req.session.destroy(error => {
             if (error) res.json({error: "error logout", mensaje: "Error al cerrar sesion"})
@@ -36,6 +38,8 @@ class ViewController{
            products
        })
        }
+    
+
        async products(req,res){
 
         const page=(req.query.page!=undefined) ? parseInt(req.query.page) : 1
@@ -116,7 +120,9 @@ const {
     chat,
     cartId,
     userCart,
-    products
+    products,
+    current
+    
 } = viewController
 export{
     register,
@@ -126,5 +132,7 @@ export{
     chat,
     cartId,
     userCart,
-    products
+    products,
+    current
+  
 }

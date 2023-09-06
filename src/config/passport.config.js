@@ -3,8 +3,8 @@ import local from "passport-local"
 import GitHubStrategy from "passport-github2"
 import "dotenv/config"
 
-import {CartsDAO} from "../models/daos/carts/carts.dao.js"
-import {UsersDAO} from "../models/daos/users/users.dao.js";
+import cartsModel from "../models/schemas/carts.schema.js"
+import userModel from "../models/schemas/Users.model.js"
 import { createHash, isValidPassword } from "../utils/utils.js"
 
 const LocalStrategy = local.Strategy
@@ -16,7 +16,7 @@ const initializedPassport = ()=>{
     callbackURL:`${process.env.GITHUB_CALLBACKURL}`
     },async(accessToken,refreshToken,profile,done)=>{
         try {
-            let user = await UsersDAO.findOne({email:profile._json.email})
+            let user = await userModel.findOne({email:profile._json.email})
             if(!user){
               let cart = {
                 "products": []
@@ -30,7 +30,7 @@ const initializedPassport = ()=>{
                     password:" ",
                     cart: newCart
                 }
-                let result = await UsersDAO.create(newUser)
+                let result = await userModel.create(newUser)
                 done(null,result)
             }else{
                 done(null,user)
@@ -49,7 +49,7 @@ const initializedPassport = ()=>{
 
         const {first_name,last_name,age} = req.body 
         try {
-            let user = await UsersDAO.findOne({email:email})
+            let user = await userModel.findOne({email:email})
             if (user) {
                 console.log("User already registered")
                 return done ("Error usuario registrado ya", error)
@@ -58,7 +58,6 @@ const initializedPassport = ()=>{
               "products": []
             }
              let newCart = await cartsModel.create(cart)
-            console.log(newCart)
             const newUser = {
                 first_name,
                 last_name,
@@ -67,10 +66,10 @@ const initializedPassport = ()=>{
                 password: createHash(password),
                 cart: newCart
             }
-            let result = await UsersDAO.create(newUser)
+            let result = await userModel.create(newUser)
             return done(null,result)
         } catch (error) {
-            return done ("Error usuario", error)
+            return done ("Error ususario", error)
         }
     }
     ))
@@ -84,7 +83,7 @@ const initializedPassport = ()=>{
           },
           async (req, email, password, done) => { 
             try {
-              const user = await UsersDAO.findOne({ email: email }); 
+              const user = await userModel.findOne({ email: email }); 
               if (!user) {
                 return done(null, false);
     
@@ -101,10 +100,15 @@ const initializedPassport = ()=>{
         done(null,user._id)
     })
     passport.deserializeUser(async(id,done)=>{
-        let user = await UsersDAO.findById(id)
+        let user = await userModel.findById(id)
         done(null,user)
     })
     
+    
+
+
+
+
   
 }
 

@@ -7,7 +7,8 @@ import{
     chat,
     cartId,
     userCart,
-    products
+    products,
+    current
 } from "../controllers/view.controller.js"
 
 const router= express.Router();
@@ -20,6 +21,9 @@ router.get('/chat',chat)
 router.get('/cart/:cid',cartId)
 router.get('/cart',userCart)
 router.get('/products',products)
+router.get('/current',current)
+
+
 
 
 export default router;

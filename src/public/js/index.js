@@ -4,6 +4,7 @@ const addToCartButton = document.getElementById("AddToCart");
 
 
 
+
 socket.on("productos", (productos) => {
     const productElement = document.getElementById("product");
     if (productElement !== null){

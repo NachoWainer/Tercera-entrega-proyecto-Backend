@@ -12,7 +12,7 @@ import passport from "passport";
 import productsRouter from "./routes/products.routes.js"
 import cartsRouter from "./routes/carts.routes.js"
 import { Server } from "socket.io"
-import { ProductsDAO } from "./models/daos/products/products.dao.js";
+import  productsModel  from "./models/schemas/products.schema.js"
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
