@@ -1,0 +1,130 @@
+import {ProductsDAO}  from '../models/daos/products/products.dao.js';
+import cartsModel from '../models/schemas/carts.schema.js';
+import {UsersDAO} from '../models/daos/users/users.dao.js';
+import session from 'express-session';
+
+class ViewController{
+    register (req,res){res.render("register")}
+    login (req, res) {res.render("login")}
+    logout (req,res){
+        req.session.destroy(error => {
+            if (error) res.json({error: "error logout", mensaje: "Error al cerrar sesion"})
+            res.send("sesion cerrada correctamente")
+        })
+    }
+    realTimeProducts (req,res){ res.render('realTimeProducts',{})}
+    async chat (req,res){res.render('chat',{})}
+
+    async cartId (req,res){
+        let cartId =req.params.cid
+        const cart = await cartsModel.findById(cartId).lean()
+        const products = cart.products
+        res.render('cart',{
+           cart,
+           products
+        })
+       }
+       async userCart(req,res){
+        let user = req.session.user
+        let cartId =user.cart
+        const cart = await cartsModel.findOne({_id:cartId}).populate("products._id").lean()
+        const products = cart.products
+       
+       res.render('cart',{
+            user,
+           cart,
+           products
+       })
+       }
+       async products(req,res){
+
+        const page=(req.query.page!=undefined) ? parseInt(req.query.page) : 1
+        const limite = (req.query.limit != undefined) ? parseInt(req.query.limit) : 10 
+        let sort = null
+        let sortParam = req.query.sort
+        if (sortParam != undefined){
+            if (sortParam == "asc") sort = {price:1}
+            if (sortParam == "desc") sort = {price:-1}
+        }  
+        let query = {}
+        const queryParam = (req.query.query != undefined) ? req.query.query : null 
+        if  (queryParam !== undefined ) {
+            if (queryParam == "disponibilidad") query = {stock: {$gt: 0}}
+            query = {categoria: {$eq: queryParam}}
+        }  
+           
+    try {
+        const{docs,hasPrevPage,hasNextPage,nextPage,prevPage,totalPages} = await productsModel.paginate({},{limit:limite,page,sort:sort,query,lean:true})
+        let user = req.session.user
+        const payload =docs 
+        const status = "success"
+        const nextLink=hasNextPage ? `page=${nextPage}&limit=${limite}` : null
+        const prevLink= hasPrevPage ? `page=${prevPage}&limit=${limite}` : null
+        let admin = (user.rol === "admin") ? true : false
+          res.render("products",{
+            status,
+            payload,
+            totalPages,
+            prevPage,
+            nextPage,
+            page,
+            hasPrevPage,
+            hasNextPage,
+            nextLink,
+            prevLink,
+            user,
+            admin  
+        })
+        
+    } catch (error) {
+    
+        const payload = []
+        const prevPage = ""
+        const nextPage = ""
+        const status = "error"
+        const hasNextPage = false
+        const hasPrevPage = false
+        const totalPages = 0
+        const page = 0
+        const nextLink=hasNextPage  ? `/?page=${nextPage}` : " "
+        const prevLink= hasPrevPage ? `/?page=${prevPage}` : " "
+    
+          res.render("products",{
+            status,
+            payload,
+            totalPages,
+            prevPage,
+            nextPage,
+            page,
+            hasPrevPage,
+            hasNextPage,
+            nextLink,
+            prevLink  
+        
+        })
+    }
+    }
+}
+
+const viewController = new ViewController()
+
+const {
+    register,
+    login,
+    logout,
+    realTimeProducts,
+    chat,
+    cartId,
+    userCart,
+    products
+} = viewController
+export{
+    register,
+    login,
+    logout,
+    realTimeProducts,
+    chat,
+    cartId,
+    userCart,
+    products
+}
