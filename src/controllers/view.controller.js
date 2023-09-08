@@ -2,12 +2,25 @@ import productsModel  from '../models/schemas/products.schema.js';
 import cartsModel from '../models/schemas/carts.schema.js';
 import usersModel from '../models/schemas/Users.model.js';
 import session from 'express-session';
+import { UserDTO } from '../models/dtos/users.dtos.js';
 
 
 class ViewController{
     register (req,res){res.render("register")}
     login (req, res) {res.render("login")}
-    current (req, res) {res.render("current")}
+    async current (req, res) {
+        try{
+            let user = await req.session.user           
+            if (user == undefined) return res.redirect("/")
+            const userDTO = new UserDTO(user)
+            res.render("current",{user: userDTO})
+        }catch(error){
+            console.error(error);
+        res.status(500).send("Internal Server Error");
+
+        }
+        
+        }
     logout (req,res){
         req.session.destroy(error => {
             if (error) res.json({error: "error logout", mensaje: "Error al cerrar sesion"})
