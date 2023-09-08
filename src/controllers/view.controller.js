@@ -78,6 +78,7 @@ class ViewController{
         const nextLink=hasNextPage ? `page=${nextPage}&limit=${limite}` : null
         const prevLink= hasPrevPage ? `page=${prevPage}&limit=${limite}` : null
         let admin = (user.rol === "admin") ? true : false
+        
           res.render("products",{
             status,
             payload,

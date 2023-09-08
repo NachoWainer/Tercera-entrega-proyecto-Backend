@@ -13,9 +13,15 @@
     <p>{{id}}</p>
     <p>{{title}}</p>
     <p>{{category}}</p>
-    <p>{{stock}}</p>
+    <p>{{stock}}</p> 
+    {{#if admin}}
+    <a data-eliminate-product-id="{{id}}"><button>eliminar producto</button></a>
+    {{/if}}
     <p>{{price}}</p>
-        <a data-product-id="{{id}}"><button>Add to cart</button></a>
+    {{#if admin}}
+    {{else}}
+    <a data-product-id="{{id}}"><button>Add to cart</button></a>
+    {{/if}}
     <hr/>
     {{/each}}
     
@@ -54,6 +60,31 @@
         });
       });
     });
+
+  const deleteButtons = document.querySelectorAll('[data-eliminate-product-id]');
+
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', () => {
+      const eliminateProductId = button.getAttribute('data-eliminate-product-id');
+      
+
+        fetch(`/api/product/${productId}`, {
+          method: 'DELETE', 
+        })
+        .then(response => {
+          if (response.ok) {
+            console.log('Producto eliminado correctamente.');
+          } else {
+            console.log('Error al eliminar el producto.');
+          }
+        })
+        .catch(error => {
+          console.error('Error en la solicitud:', error);
+        });
+      });
+    });
+
+
   </script>
 
 <script src="/socket.io/socket.io.js"></script>

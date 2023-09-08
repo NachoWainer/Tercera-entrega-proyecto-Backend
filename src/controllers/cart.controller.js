@@ -12,6 +12,10 @@ class CartController{
         } catch (error) {
             res.send({status:"error",message:"error",value:[]})} 
     }
+    async finishOrder(req,res){
+        const cartId = req.params.cid
+        const products = cartsModel.getCart(cartId)
+    }
 
     async getCart (req,res){
         let id = req.params.cid
@@ -197,7 +201,8 @@ const {
     deleteProductOfCart,
     updateProductsOfCart,
     updateProductQty,
-    emptyCart
+    emptyCart,
+    finishOrder
 
 } = cartController
 export{
@@ -207,5 +212,6 @@ export{
     deleteProductOfCart,
     updateProductsOfCart,
     updateProductQty,
-    emptyCart
+    emptyCart,
+    finishOrder
 }
