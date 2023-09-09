@@ -14,8 +14,10 @@ import cartsRouter from "./router/routes/carts.routes.js"
 import { Server } from "socket.io"
 import  productsModel  from "./models/schemas/products.schema.js"
 
+
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import messagesModel from "./models/schemas/messages.schema.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
