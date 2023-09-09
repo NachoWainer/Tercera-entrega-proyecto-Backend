@@ -8,7 +8,7 @@ import{
     failLogin,
     recoverPass,
     currentUser
-}from "../controllers/session.controller.js"
+}from "../../controllers/session.controller.js"
 
 
 const router = Router()

@@ -1,16 +1,16 @@
 import express  from "express";
 
-import viewRouter from './routes/views.router.js'
+import viewRouter from './router/app.router.js'
 import handlebars from 'express-handlebars'
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import session from "express-session";
-import sessionRouter from "./routes/sessions.router.js"
+import sessionRouter from "./router/routes/sessions.router.js"
 import "dotenv/config"
 import initializedPassport from "./config/passport.config.js";
 import passport from "passport";
-import productsRouter from "./routes/products.routes.js"
-import cartsRouter from "./routes/carts.routes.js"
+import productsRouter from "./router/routes/products.routes.js"
+import cartsRouter from "./router/routes/carts.routes.js"
 import { Server } from "socket.io"
 import  productsModel  from "./models/schemas/products.schema.js"
 

@@ -26,6 +26,7 @@ class SessionController{
         password:req.user.password,
         cart:req.user.cart._id,
         role:req.user.role}
+        console.log(req.session.user.role)
         res.send({status:"success",payload: req.user})
     }
     async failLogin(req,res){

@@ -1,5 +1,5 @@
 import  {Router}  from "express";
-import { adminRole,userRole } from "../middlewares/auth.js";
+import { adminRole,userRole } from "../../middlewares/auth.js";
 
 import{
     createCart,
@@ -10,7 +10,7 @@ import{
     updateProductQty,
     emptyCart,
     finishOrder
-}from "../controllers/cart.controller.js"
+}from "../../controllers/cart.controller.js"
 
 const router = Router();
 
