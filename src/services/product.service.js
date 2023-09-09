@@ -1,5 +1,7 @@
-import { ProductsDAO } from "../models/daos/products/products.dao.js";
+import { getDAOS } from "../models/daos/indexDAO.js";
+import { HttpError,HTTP_STATUS } from "../utils/utils.js";
 
+const {productsDao} = getDAOS();
 export class ProductService{
 
     async addProduct(
@@ -15,13 +17,13 @@ export class ProductService{
             if (content.find(element => element.code === code)){
                 throw new HttpError('Code not available', HTTP_STATUS.BAD_REQUEST);
             }
-            const product = await ProductsDAO.addProduct(title, description, code, price, status, stock, category, thumbnail)
+            const product = await productsDao.addProduct(title, description, code, price, status, stock, category, thumbnail)
             emitRealTimeProducts()
             return product
     }
 
     async getProducts(filter) {
-        const products = await ProductsDAO.getProducts(filter)
+        const products = await productsDao.getProducts(filter)
         return products     
     }
 
@@ -29,7 +31,8 @@ export class ProductService{
         if (!productId) {
             throw new HttpError('Missing param', HTTP_STATUS.BAD_REQUEST);
         }
-        const product = await ProductsDAO.getProductById(productId)
+        const product = await productsDao.getProductById(productId)
+       
         if (!product) {
             throw new HttpError('product not found', HTTP_STATUS.NOT_FOUND);
         }
@@ -46,7 +49,7 @@ export class ProductService{
             if (("stock"===prop && isNaN(value)) || ("stock"===prop && Number(value) === null) || ("price"===prop && isNaN(value)) || ("price"===prop && Number(value) === null)) throw new HttpError('price and stock fields must be numbers', HTTP_STATUS.BAD_REQUEST);
             if (("title"===prop && !isNaN(value)) || ("title"===prop && value.replace(/\s/g, '') === "") || ("description"===prop && !isNaN(value)) || ("description"===prop && value.replace(/\s/g, '') === "")
             || ("code"===prop && !isNaN(value)) || ("code"===prop && value.replace(/\s/g, '') === "")) throw new HttpError('title description category and code must be text', HTTP_STATUS.BAD_REQUEST);
-            const product = await ProductsDAO.updateProduct(productId, prop , value)
+            const product = await productsDao.updateProduct(productId, prop , value)
             if (!product) {
                 throw new HttpError('product not found', HTTP_STATUS.NOT_FOUND);
             }
@@ -61,7 +64,7 @@ export class ProductService{
         if (!productId) {
             throw new HttpError('Missing param', HTTP_STATUS.BAD_REQUEST);
         }
-        const product = await ProductsDAO.deleteProduct(productId)
+        const product = await productsDao.deleteProduct(productId)
         if (!product) {
             throw new HttpError('product not found', HTTP_STATUS.NOT_FOUND);
         } 

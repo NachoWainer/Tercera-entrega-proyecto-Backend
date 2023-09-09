@@ -13,6 +13,7 @@ export class TicketsDAO {
 
   async createTicket(payload) {
     const newTicket = await ticketsModel.create(payload);
+    console.log(newTicket)
     return newTicket;
   }
 

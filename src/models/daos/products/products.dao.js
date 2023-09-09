@@ -21,8 +21,16 @@ export class ProductsDAO{
         return value
     }
     async getProductById(productId) { 
-        const data = await productsModel.find({_id:productId}).lean();  
-        return data      
+        
+        try {
+            const data = await productsModel.findOne({_id: productId}).lean();
+            if (!data) {
+                throw new HttpError('Product not found', HTTP_STATUS.NOT_FOUND);
+            }
+            return data;
+        } catch (error) {
+            throw new HttpError('Error fetching product', HTTP_STATUS.INTERNAL_SERVER_ERROR);
+        }
     }
     async updateProduct(productId, prop , value){
         const product = await productsModel.updateOne({_id: productId},{$set:{[prop]:value}});

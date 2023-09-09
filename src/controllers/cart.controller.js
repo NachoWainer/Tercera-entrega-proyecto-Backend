@@ -1,109 +1,64 @@
-import cartsModel from "../models/schemas/carts.schema.js"
+import { CartService } from "../services/cart.service.js"
+import { ProductService } from "../services/product.service.js"
+import { TicketService } from "../services/ticket.service.js"
+
+
+
+const cartService = new CartService()
+const productService = new ProductService()
+const ticketService = new TicketService()
 
 class CartController{
-    async create(req,res){
-        let cart = {
-            "products": []
-          }
-        try {
-            await cartsModel.create(cart)
-            res.send({status:"success",message:"OK",value:cart})
-            
-        } catch (error) {
-            res.send({status:"error",message:"error",value:[]})} 
+    async getAll(req,res){
+        const carts = await cartService.getCarts()
+        if (!carts) return res.status(404).send({message:"carts not found"})
+        return res.status(200).send({payload:carts})
     }
-    async finishOrder(req,res){
-        const cartId = req.params.cid
-        const products = cartsModel.getCart(cartId)
-    }
+
+    async createCart(req,res){
+        const newCart = await cartService.createCart()  
+        if (newCart.error != 1) return res.status(403).send({message:"Failed to create cart"})
+        res.status(200).send({message:"success"})}
 
     async getCart (req,res){
         let id = req.params.cid
         try {
-            const cart = await cartsModel.findById(id).populate("products").lean()
-            res.send({status:"success",message:"Carrito obtenido correctamente",value:cart})
+            const cart = await cartService.getCartById(id)
+            res.send({status:"success",message:"Carrito obtenido correctamente",payload:cart.products})
         } catch (error) {
-            res.send({status:"error",message:error,value:[]})}
+            res.send({status:"error",message:error,payload:[]})}
     }
 
-    async getProductOfCart (req,res){
+    async addProductToCart(req, res) {
         const cartId = req.params.cid;
-        let productId = req.params.pid;
+        const productId = req.params.pid;
         try {
-            const cart = await cartsModel.findById(cartId);
-
-            if (!cart) {
-            return res.send(
-                { status: 'error', message: 'Carrito no encontrado', value: [] })
-            }
-            if (cart.products.length === 0) {
-                await cartsModel.updateOne(
-                    {_id: cartId},
-                    {$push:{products:{_id: productId, quantity:1 }}})
-
-                return res.send(
-                    { status: 'success', message: 'producto agregado', value: [] })
-            }
-            else {
-                let aux = await cartsModel.findOne(
-                    { _id: cartId, "products._id": productId });
-                if (aux == null){
-                    await cartsModel.updateOne(
-                        {_id: cartId},
-                        {$push:{products:{_id: productId, quantity:1 }}})
-                    return res.send(
-                        { status: 'success', message: 'producto agregado', value: [] })
-                }
-                else {
-                    await cartsModel.updateOne(
-                        { _id: cartId, "products._id": productId },
-                        { $inc: { "products.$.quantity": 1 }})
-                    return res.send(
-                        { status: 'success', message: 'producto agregado', value: [] })
-                } 
-            }
+          await cartService.addProductToCart(cartId, productId);
+          res.status(200).send({ message: 'Producto agregado al carrito exitosamente' });
         } catch (error) {
-            res.send({ status: 'error', message: error, value: [] });
+            console.log(error)
+          res.status(500).send({ message: 'Error interno del servidor', error: error.message });
         }
-    }
+      }
 
     async deleteProductOfCart(req,res){
         const cartId = req.params.cid;
-        let productId = req.params.pid;
+        const productId = req.params.pid;
         try {
-            const cart = await cartsModel.findById(cartId);
-      
-            if (!cart) {
-                return res.send(
-                    { status: 'error', message: 'Carrito no encontrado', value: [] })
-            }
-            if (cart.products.length === 0) { 
-                return res.send(
-                { status: 'success', message: 'El carrito esta vacio', value: [] })
-            }
-      
-            else {
-                let aux = await cartsModel.findOne(
-                { _id: cartId, "products._id": productId });
-                if (aux == null){
-                    return res.send(
-                    { status: 'success', message: 'El producto no esta en el carrito', value: [] })
-                }
-              else {
-                await cartsModel.updateOne(
-                    { _id: cartId},
-                    { $pull: { products: { _id: productId } } })
-                return res.send(
-                    { status: 'success', message: 'producto eliminado', value: [] })
-                } 
-            }
-      
+            await cartService.deleteProductOfCart(cartId,productId)
         } catch (error) {
-          res.send(
-            { status: 'error', message: error, value: [] });
+            res.status(error).send({message:error})
         }
     }
-
+    async deleteAllProducts(req,res){
+        const cartId = req.params.cid;
+        const productId = req.params.pid;
+        try {
+            await cartService.deleteAllProducts(cartId,productId)
+        } catch (error) {
+            res.status(error).send({message:error})
+        }
+    }
     async updateProductsOfCart(req,res){
         let productos = req.body 
         const cartId = req.params.cid;
@@ -138,6 +93,58 @@ class CartController{
                 { message: "Error en el servidor" });
         }
     }
+
+   
+    async finishOrder(req, res) {
+        try {
+          const cartId = req.params.cid;
+          const cart = await cartService.getCartById(cartId);
+      
+          // Verifica si cart y cart.products están definidos antes de iterar
+          if (cart && cart.products && Array.isArray(cart.products)) {
+            const productosComprados = [];
+            const productosNoComprados = [];
+            let totalCompra = 0;
+      
+            await Promise.all(cart.products.map(async (product) => {
+              const quantity = product.quantity;
+              const availStock = await productService.getProductById(product._id);
+              const stock = availStock.stock;
+              if (quantity > stock) {
+                productosNoComprados.push(product._id);
+              } else {
+                await productService.updateProduct(product._id, "stock", stock - quantity);
+                productosComprados.push(product._id);
+                totalCompra = totalCompra + (availStock.price * quantity);
+              }
+            }));
+            console.log("productos No comprados:",productosNoComprados)
+            await Promise.all(productosComprados.map(async (product) => {
+                await cartService.deleteProduct(cartId, product._id);
+              }));    
+      
+            const ticket = await ticketService.createTicket(
+              cartId,
+              req.session.user.email,
+              totalCompra,
+            );
+            
+            res.send({ payload: ticket });
+          } else {
+            res.status(400).json({ error: 'Cart or cart products are undefined or not an array' });
+          }
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Error al procesar la orden' });
+        }
+      }
+      
+      
+      
+      
+      
+      
+            
     async updateProductQty(req,res){
         let {cantidad} = req.body 
         cantidad = parseInt(cantidad)
@@ -195,9 +202,11 @@ class CartController{
 }
 const cartController = new CartController()
 const {
-    create,
+    getAll,
+    createCart,
     getCart,
-    getProductOfCart,
+    addProductToCart,
+    deleteAllProducts,
     deleteProductOfCart,
     updateProductsOfCart,
     updateProductQty,
@@ -206,9 +215,11 @@ const {
 
 } = cartController
 export{
-    create,
+    getAll,
+    createCart,
     getCart,
-    getProductOfCart,
+    addProductToCart,
+    deleteAllProducts,
     deleteProductOfCart,
     updateProductsOfCart,
     updateProductQty,

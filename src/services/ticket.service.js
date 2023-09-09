@@ -1,9 +1,9 @@
-import { HttpError, HTTP_STATUS } from "../utils/recursos.js";
+import { HttpError, HTTP_STATUS } from "../utils/utils.js";
 import { getDAOS } from "../models/daos/indexDAO.js";
 
 const { ticketsDao, productsDao, cartsDao, usersDao } = getDAOS();
 
-export class ticketService {
+export class TicketService {
     async getTickets() {
       const tickets = await ticketsDao.getTickets();
       return tickets;
@@ -20,8 +20,8 @@ export class ticketService {
       return order;
     }
 
-    async createTicket(payload) {
-      const { cart, user, products } = payload;
+    async createTicket(cart,user,amount) {
+      
      if (!cart || !user) {
         throw new HttpError('`cart` and `user` are required fields', HTTP_STATUS.BAD_REQUEST);
       }
@@ -31,49 +31,18 @@ export class ticketService {
         throw new HttpError('Cart not found', HTTP_STATUS.BAD_REQUEST);
       }
 
-      const userDB = await usersDao.getUserById(user);
-      if (!userDB) {
-        throw new HttpError('User not found', HTTP_STATUS.BAD_REQUEST);
+      if (!amount) {
+        throw new HttpError('amount not valid', HTTP_STATUS.BAD_REQUEST);
       }
 
-      if (!products || !Array.isArray(products) || !products.length) {
-        throw new HttpError('Products array not valid', HTTP_STATUS.BAD_REQUEST);
-      }
-      
-      const productsMap = products.reduce((productsMap, currentProduct) => {
-        productsMap[currentProduct.reference] = currentProduct.quantity;
-        return productsMap;
-      }, {});
-
-      const productsIds = Object.keys(productsMap);
-      const productsFilter = { _id: { $in: productsIds }};
-      const productsDB = await productsDao.getproducts(productsFilter);
-      
-      if (!productsDB || !productsDB.length) {
-        throw new HttpError('Please check products list', HTTP_STATUS.BAD_REQUEST);       
-      }
-
-      let totalPrice = 0;
-      const productsPayload = productsDB.map(product => {
-        const reference = product._id;
-        const quantity = productsMap[reference];
-        const price = product.price;
-        totalPrice += price * quantity;
-        return {
-          reference,
-          quantity,
-          price,
-        }
-      });
 
       const order_number = Date.now();
       const newTicketPayload = {
         order_number,
         cart,
-        user,
+        purchaser:user,
         status: 'pending',
-        products: [],
-        total_price: 0,
+        amount: amount,
       };
 
       const newTicket = await ticketsDao.createTicket(newTicketPayload);

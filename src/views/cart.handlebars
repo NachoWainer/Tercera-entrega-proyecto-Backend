@@ -9,9 +9,34 @@
     <hr/>
 
     {{/each}}
+  <button id="finishOrder">finish order</button>
     
    
   
 </div>
+<script>
+  
+    const finishOrder = document.getElementById("finishOrder");
+
+   
+      finishOrder.addEventListener('click', () => {
+        console.log("hola")
+        fetch(`/api/carts/{{user.cart}}/purchase`, {
+          method: 'POST', 
+        })
+        .then(response => {
+          if (response.ok) {
+            console.log("Ticket:",response.json());
+          } else {
+            console.log('Error al finalizar compra.');
+          }
+        })
+        .catch(error => {
+          console.error('Error en la solicitud:', error);
+        });
+      });
+</script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/index.js"></script>
+
+   

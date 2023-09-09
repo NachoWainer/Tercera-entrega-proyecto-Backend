@@ -1,0 +1,16 @@
+<div>
+  <h1>Productos en el carrito de {{user.first_name}}</h1>
+
+{{#each payload}}
+    <p>id: {{id}}</p>
+    <p>code: {{code}}</p>
+    <p>amount: $ {{amount}}</p>
+    <p>purchaser: {{email}}</p>
+    <hr/>
+{{/each}}
+    
+   
+  
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/index.js"></script>

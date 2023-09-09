@@ -6,8 +6,15 @@ export class CartsDAO{
         return carts;
       }
     async getCartById(id) {
-        const carts = await cartsModel.findOne({ _id: id }).lean();
+      try {
+        const carts = await cartsModel.findOne({ _id: id }).populate("products._id").lean();
         return carts;
+        
+      } catch (error) {
+        return error
+        
+      }
+        
       }
     
     async createCart(payload) {
@@ -21,23 +28,54 @@ export class CartsDAO{
         });
         return updatedCart;
       }
-    async deleteProduct(CartId,ProductId){
-        let cart = await cartsModel.findOne({id:CartId}).lean()
-        const product = cart.products.find(e => e._id === ProductId)
-        cart = await cartsModel.updateOne({id: CartId},{$pull: {products:{id: ProductId}}})
-        return{cart:cart,product:product}  
+      async  deleteProduct(cartId, productId) {
+        try {
+          const cart = await cartsModel.findOne({ _id: cartId }).lean();
+      
+          if (!cart) {
+            throw new Error('Cart not found');
+          }
+      
+          const productIndex = cart.products.findIndex((e) => e._id.equals(productId));
+      
+          if (productIndex !== -1) {
+            const update = {
+              $pull: { products: { _id: productId } }
+            };
+      
+            await cartsModel.updateOne({ _id: cartId }, update);
+      
+            return [cart, { _id: productId }]; // Devolvemos el producto eliminado
+          } else {
+            return [cart, null]; // No se encontró el producto, devolvemos null
+          }
+        } catch (error) {
+          console.error(error);
+          return [null, null];
+        }
       }
-    async addProduct(CartId,ProductId){
-        const cart = await cartsModel.findOne({id:CartId}).lean() 
-        const product = cart.products.find(e => e.id === ProductId)
-        if (product !== undefined){ 
-            product.quantity +=1
-            await cartsModel.updateOne({id: CartId}, cart)}
-        else {
-            cart.products.push({id:ProductId, quantity:1})
-            await cartsModel.updateOne({id: CartId}, cart)
+      async addProduct(CartId, ProductId) {
+        try {
+          const cart = await cartsModel.findOne({ _id: CartId }).lean();
+          if (!cart) {
+            throw new Error('Carrito no encontrado');
+          }
+          let product = cart.products.find((e) => e._id.equals(ProductId));
+          if (product !== undefined) {
+            product.quantity += 1;
+            await cartsModel.updateOne({ _id: CartId }, cart);
+          } else {
+            product = { _id: ProductId, quantity: 1 }
+            cart.products.push({ _id: ProductId, quantity: 1 });
+            await cartsModel.updateOne({ _id: CartId }, cart);
+          }
+      
+          return [cart, product]; // Devuelve tanto el carrito como el producto
+        } catch (error) {
+          console.error(error);
+          throw error; // Propaga el error hacia arriba
         }
-        return{cart:cart,product:product}
-        }
+      }
+}
 
-       }
+       
