@@ -33,7 +33,7 @@ export class CartsDAO{
           const cart = await cartsModel.findOne({ _id: cartId }).lean();
       
           if (!cart) {
-            throw new Error('Cart not found');
+            throw new HttpError('cart not found', HTTP_STATUS.NOT_FOUND);
           }
       
           const productIndex = cart.products.findIndex((e) => e._id.equals(productId));
@@ -58,7 +58,7 @@ export class CartsDAO{
         try {
           const cart = await cartsModel.findOne({ _id: CartId }).lean();
           if (!cart) {
-            throw new Error('Carrito no encontrado');
+            throw new HttpError('cart not found', HTTP_STATUS.NOT_FOUND);
           }
           let product = cart.products.find((e) => e._id.equals(ProductId));
           if (product !== undefined) {
@@ -70,10 +70,10 @@ export class CartsDAO{
             await cartsModel.updateOne({ _id: CartId }, cart);
           }
       
-          return [cart, product]; // Devuelve tanto el carrito como el producto
+          return [cart, product]; 
         } catch (error) {
           console.error(error);
-          throw error; // Propaga el error hacia arriba
+          throw error; 
         }
       }
 }

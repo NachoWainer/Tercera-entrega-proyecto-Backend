@@ -9,7 +9,8 @@ import{
     cartId,
     userCart,
     products,
-    current
+    current,
+    mockingProducts
 } from "../controllers/view.controller.js"
 
 const router= express.Router();
@@ -23,6 +24,7 @@ router.get('/cart/:cid',cartId)
 router.get('/cart',userCart)
 router.get('/products',products)
 router.get('/current',userRole,current)
+router.get('/mockingProducts',userRole,mockingProducts)
 
 
 

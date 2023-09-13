@@ -3,6 +3,7 @@ import cartsModel from '../models/schemas/carts.schema.js';
 import usersModel from '../models/schemas/Users.model.js';
 import session from 'express-session';
 import { UserDTO } from '../models/dtos/users.dtos.js';
+import { generateProduct } from '../utils/utils.js';
 
 
 class ViewController{
@@ -122,6 +123,11 @@ class ViewController{
         })
     }
     }
+    async mockingProducts (req,res){
+        const totalProducts = req.query.total || 100
+        const fakerProducts = Array.from({length:totalProducts},()=>generateProduct())
+       return res.send({status:200,message:"OK",payload:fakerProducts})
+    }       
 }
 
 const viewController = new ViewController()
@@ -135,7 +141,8 @@ const {
     cartId,
     userCart,
     products,
-    current
+    current,
+    mockingProducts
     
 } = viewController
 export{
@@ -147,6 +154,7 @@ export{
     cartId,
     userCart,
     products,
-    current
+    current,
+    mockingProducts
   
 }
