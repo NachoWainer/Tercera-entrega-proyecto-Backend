@@ -2,6 +2,7 @@ import {UsersDAO} from "../models/daos/users/users.dao.js";
 import { createHash, isValidPassword } from "../utils/utils.js";
 import {UserDTO} from "../models/dtos/users.dtos.js"
 import usersModel from "../models/schemas/Users.model.js";
+import { addLogger } from "../../utils/logger.js";
 
 class SessionController{
     async gitCallback(req,res){
@@ -26,7 +27,6 @@ class SessionController{
         password:req.user.password,
         cart:req.user.cart._id,
         role:req.user.role}
-        console.log(req.session.user.role)
         res.send({status:"success",payload: req.user})
     }
     async failLogin(req,res){

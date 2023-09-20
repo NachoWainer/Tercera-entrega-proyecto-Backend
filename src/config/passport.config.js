@@ -51,7 +51,7 @@ const initializedPassport = ()=>{
         try {
             let user = await userModel.findOne({email:email})
             if (user) {
-                console.log("User already registered")
+                req.logger.warning("User already registered")
                 return done ("Error usuario registrado ya", error)
             }
             let cart = {

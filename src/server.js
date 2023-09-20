@@ -1,5 +1,5 @@
 import express  from "express";
-
+import { addLogger } from "../utils/logger.js";
 import viewRouter from './router/app.router.js'
 import handlebars from 'express-handlebars'
 import mongoose from "mongoose";
@@ -26,6 +26,7 @@ const app =express();
 const PORT=8080;
 const httpServer = app.listen(8080, ()=>console.log("Server running"))
 const socketServer = new Server(httpServer)
+app.use(addLogger)
 
 
 mongoose.set('strictQuery',false)

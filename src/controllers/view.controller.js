@@ -127,7 +127,16 @@ class ViewController{
         const totalProducts = req.query.total || 100
         const fakerProducts = Array.from({length:totalProducts},()=>generateProduct())
        return res.send({status:200,message:"OK",payload:fakerProducts})
-    }       
+    }  
+
+    async testingLogs(req,res){
+        req.logger.fatal("¡");
+        req.logger.error("HOLA");
+        req.logger.info("ESTO");
+        req.logger.warning('FUNCIONA');
+        req.logger.http("!");
+        req.logger.debug('MODO DESARROLLO');
+    }     
 }
 
 const viewController = new ViewController()
@@ -142,7 +151,8 @@ const {
     userCart,
     products,
     current,
-    mockingProducts
+    mockingProducts,
+    testingLogs
     
 } = viewController
 export{
@@ -155,6 +165,7 @@ export{
     userCart,
     products,
     current,
-    mockingProducts
+    mockingProducts,
+    testingLogs
   
 }

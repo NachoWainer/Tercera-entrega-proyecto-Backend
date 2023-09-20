@@ -50,13 +50,13 @@
         })
         .then(response => {
           if (response.ok) {
-            console.log('Producto agregado al carrito correctamente.');
+            req.logger.info('Producto agregado al carrito correctamente.');
           } else {
-            console.log('Error al agregar el producto al carrito.');
+            req.logger.error('Error al agregar el producto al carrito.');
           }
         })
         .catch(error => {
-          console.error('Error en la solicitud:', error);
+          req.logger.error('Error en la solicitud');
         });
       });
     });
@@ -73,13 +73,13 @@
         })
         .then(response => {
           if (response.ok) {
-            console.log('Producto eliminado correctamente.');
+            req.logger.info('Producto eliminado correctamente.');
           } else {
-            console.log('Error al eliminar el producto.');
+            req.logger.error('Error al eliminar el producto.');
           }
         })
         .catch(error => {
-          console.error('Error en la solicitud:', error);
+          req.logger.error('Error en la solicitud');
         });
       });
     });

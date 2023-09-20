@@ -1,5 +1,6 @@
 import {ProductsDAO} from "../models/daos/products/products.dao.js"
 
+
 class ProductController {
     async getProductsLimit (req,res){
         const limit = req.query.limit
@@ -13,10 +14,14 @@ class ProductController {
         if (data){
             return res.send(
                 {status:status,message:`${message}`,value:data})
+        req.logger.info(`${message}`);
+
         }
         else{ 
             return res.send(
-                {status:status,message:`${message}`,value:data})       
+                {status:status,message:`${message}`,value:data})  
+        req.logger.info(`${message}`);
+
     
         }
     }
@@ -34,6 +39,8 @@ class ProductController {
             title,description,code,price,status,stock,category,thumbnail,req.app.get('socket'))
         res.send(
             {status:stats,message:`${message}`,value:data})
+        req.logger.info(`${message}`);
+
     }
     async updateProduct(req,res){
         let id = parseInt(req.params.pid)
@@ -65,11 +72,15 @@ class ProductController {
         if (category !== undefined) result.push(await productHandler.updateProduct(id,"category",category))
         if (thumbnail !== undefined) result.push(await productHandler.updateProduct(id,"thumbnail",thumbnail))
         res.send(result)
+        req.logger.info("ok");
+
     }
     async deleteProduct (req,res){
         let id = parseInt(req.params.pid)
         const {stats,message,data} = await productHandler.deleteProduct(id)
         res.send({stats,message,data})
+        req.logger.info(`${message}`);
+
     }
 }
 

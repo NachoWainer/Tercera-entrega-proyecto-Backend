@@ -1,3 +1,4 @@
+
 import { CartService } from "../services/cart.service.js"
 import { ProductService } from "../services/product.service.js"
 import { TicketService } from "../services/ticket.service.js"
@@ -11,21 +12,30 @@ const ticketService = new TicketService()
 class CartController{
     async getAll(req,res){
         const carts = await cartService.getCarts()
-        if (!carts) return res.status(404).send({message:"carts not found"})
+        if (!carts) {
+            req.logger.error("Carts not found")
+            return res.status(404).send({message:"carts not found"})}
+        
+        req.logger.info("Carts retrieved successfully");
         return res.status(200).send({payload:carts})
     }
 
     async createCart(req,res){
         const newCart = await cartService.createCart()  
-        if (newCart.error != 1) return res.status(403).send({message:"Failed to create cart"})
+        if (newCart.error != 1) {
+            req.logger.error("Failed to create cart");
+            return res.status(403).send({message:"Failed to create cart"})}
+        req.logger.info("Cart created successfully");
         res.status(200).send({message:"success"})}
 
     async getCart (req,res){
         let id = req.params.cid
         try {
             const cart = await cartService.getCartById(id)
+            req.logger.info("Carts obtained successfully");
             res.send({status:"success",message:"Carrito obtenido correctamente",payload:cart.products})
         } catch (error) {
+            req.logger.error("Failed to get cart");
             res.send({status:"error",message:error,payload:[]})}
     }
 
@@ -34,9 +44,10 @@ class CartController{
         const productId = req.params.pid;
         try {
           await cartService.addProductToCart(cartId, productId);
+          req.logger.info("product added successfully");
           res.status(200).send({ message: 'Producto agregado al carrito exitosamente' });
         } catch (error) {
-            console.log(error)
+            req.logger.error("Failed to add prodcut");
           res.status(500).send({ message: 'Error interno del servidor', error: error.message });
         }
       }
@@ -46,7 +57,9 @@ class CartController{
         const productId = req.params.pid;
         try {
             await cartService.deleteProductOfCart(cartId,productId)
+            req.logger.info("Prodcut deleted");
         } catch (error) {
+            req.logger.error("Failed to delete prodcut");
             res.status(error).send({message:error})
         }
     }
@@ -55,7 +68,11 @@ class CartController{
         const productId = req.params.pid;
         try {
             await cartService.deleteAllProducts(cartId,productId)
+            req.logger.info("All prodcuts deleted");
+
         } catch (error) {
+            req.logger.error("Failed to delete all prodcuts");
+
             res.status(error).send({message:error})
         }
     }
@@ -65,10 +82,13 @@ class CartController{
         try {
             const cart = await cartsModel.findById(cartId);
             if (!cart) {
+                req.logger.warning;("Cart not found");
             return res.send(
                 { status: "error", message: "Carrito no encontrado" });
+
             }
             if (productos.length === 0){
+                req.logger.info;("Empty list of products to update");
                 return res.send(
                     {status:"success", message: "no hay productos a agregar"})
             }
@@ -86,9 +106,11 @@ class CartController{
                 } 
                 
             })
+            req.logger.info;("product updated");
             return res.send({ status: 'success', message: 'producto agregado', value: [] })    
 
         } catch (error) {
+            req.logger.error;("Server error");
             res.status(500).send(
                 { message: "Error en el servidor" });
         }
@@ -118,7 +140,7 @@ class CartController{
                 totalCompra = totalCompra + (availStock.price * quantity);
               }
             }));
-            console.log("productos No comprados:",productosNoComprados)
+            req.logger.info;("List of unbought products",productosNoComprados);
             await Promise.all(productosComprados.map(async (product) => {
                 await cartService.deleteProduct(cartId, product._id);
               }));    
@@ -131,24 +153,21 @@ class CartController{
             
             res.send({ payload: ticket });
           } else {
+            req.logger.error("Cart or cart products are undefined or not an array");
             res.status(400).json({ error: 'Cart or cart products are undefined or not an array' });
           }
         } catch (error) {
-          console.error(error);
+        req.logger.error('Error al procesar la orden');
           res.status(500).json({ error: 'Error al procesar la orden' });
         }
       }
       
       
-      
-      
-      
-      
-            
     async updateProductQty(req,res){
         let {cantidad} = req.body 
         cantidad = parseInt(cantidad)
         if (cantidad < 0) {
+        req.logger.warning('invalid quantity');
             return res.send(
                 { status: 'error', message: 'cantidad invalida', value: [] })
         }   
@@ -157,6 +176,8 @@ class CartController{
         try {
             const cart = await cartsModel.findById(cartId);
             if (!cart) {
+        req.logger.warning('Cart not found');
+
             return res.send(
                 { status: "error", message: "Carrito no encontrado" });
             }
@@ -174,9 +195,13 @@ class CartController{
                     { _id: cartId, "products._id": productId },
                     { "products.$.quantity": cantidad })
             } 
+        req.logger.info('Quantity updated succesfully');
+
             return res.send(
                 { status: 'success', message: 'cantidad actualizada', value: [] })    
         } catch (error) {
+        req.logger.error('Server Error');
+
             res.status(500).send(
                 { message: "Error en el servidor" });
         }
@@ -192,9 +217,13 @@ class CartController{
             await cartsModel.updateOne(
                 { _id: CartId},
                 { $set: { products: [] } })
+        req.logger.info('Cart emptied succesfully');
+
             res.send(
                 {status:"success",message:"se eliminaron todos los productos del carrito ",value:[]})
         } catch (error) {
+        req.logger.error('Server Error');
+
             res.send({status:"error",message:error,value:[]})   
         }
     }
