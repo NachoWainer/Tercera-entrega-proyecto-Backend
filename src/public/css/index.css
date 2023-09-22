@@ -1,3 +1,166 @@
+*{
+    margin: 0;
+    padding: 0;
+    
+
+    
+}
+
+
+
+
+/*---------------------------LOGIN---------------------------------------------*/
+.login-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #1111;
+}
+#loginForm{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    
+}
+.login{
+    position: absolute;
+    width: 400px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.login h2{
+    font-size: 3em;
+    color: #fff;
+}
+.login .inputBox{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.login .inputBox input{
+    position: relative;
+    align-items: center;
+    width: 70%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 40px;
+    font-size: 1.5em;
+    color:#fff;
+    box-shadow: none;
+    outline:none
+}
+.login .inputBox input[type="submit"]{
+    position: relative;
+    width:100%;
+    background: linear-gradient(45deg,#ff357a,#fff172);
+    
+    cursor: pointer;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#submit-login{
+    margin: 0 auto; /* Add margin to center horizontally */
+    width: 70%;
+    background: transparent;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.2em;
+    color: #fff;
+    box-shadow: none;
+    outline: none;
+}
+.login .inputBox input::placeholder{
+    color: rgba(255, 255, 255, 0.75)
+}
+.login .links{
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+.login .links a{
+    color: #bdbdbd;
+    text-decoration: none;
+    font-size: 1em;
+}
+.login .links a:hover {
+    transition: 1.2s;
+    font-size: 1.2em;
+    color: black;
+}
+.square{
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+.square i{
+    position: absolute;
+    inset: 0;
+    border: 2px solid #fff;
+    transition: 0.5s;
+}
+.square i:nth-child(1){
+    border-radius: 100% 62% 63% 37% / 41% 44% 56% 59%;
+    animation: animate 10s linear infinite;
+}
+.square i:nth-child(2){
+    border-radius: 41% 44% 56% 100% / 38% 62% 63% 37%;
+    animation: animate 50s linear infinite;
+}
+
+.square i:nth-child(3){
+    border-radius: 41% 44% 56% 59% / 38% 62% 63% 37%;
+    animation: animate2 30s linear infinite;
+}
+/*.square:hover i{
+    border: 6px solid var(--clr);
+    filter: drop-shadow(0 0 20px var(--clr))
+} */
+@keyframes animate{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+@keyframes animate2{
+    0%{
+        transform: rotate(360deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+
+
+
+
+
+
+/*--------------------------products---------------------------------*/
+
+
+
 .producto{
     display: grid;
     grid-template-columns: 1fr;

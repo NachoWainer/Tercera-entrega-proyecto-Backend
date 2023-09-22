@@ -18,6 +18,6 @@ router.post("/register", passport.authenticate("register",{failureRedirect:"/fai
 router.get("/failregister",failRegister)
 router.post("/login",passport.authenticate("login",{failureRedirect:"/faillogin"}), login)    
 router.get("/faillogin", failLogin)
-router.post("/recover", recoverPass)
+router.post("/recoverPassword", recoverPass)
 router.get("/current", currentUser)
 export default router 

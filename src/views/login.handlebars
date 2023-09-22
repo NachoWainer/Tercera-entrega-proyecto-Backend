@@ -1,19 +1,28 @@
-<div>
-  <h1>LOGIN</h1>
-
+<div class="login-box">
+<div class="square">
+  <i style ="--clr:#00ff0a;"></i>
+  <i style ="--clr:#ff0057;"></i>
+  <i style ="--clr:#fffd44;"></i>
+<div class="login"> 
+  <h2>LOGIN</h2>
   <form id ="loginForm">
-    <label>Email</label>
-    <input type="email" id="email" name="email" required>
-    <br/>
-    <label>Contraseña</label>
-    <input type="password" id="password" name="password" required>
-    <input type="submit" value = "Ingresar">
+    <div class="inputBox">
+    <input type="email" id="email" name="email" required placeholder="e-mail address">
+    </div>
+    <div class="inputBox">
+    <input type="password" id="password" name="password" required placeholder="password" >
+    </div>
+    <button id= "submit-login" class="inputBox">
+    <input type="submit" value = "Sign in">
+    </button >
   </form>
-  <a href="/api/sessions/github"><button> Autenticarse con Git</button></a>
-  <p>No estas registrado?</p>
-  <a href="/register"><button> registrate aquí</button></a>
-  <a href="/recoverPassword"><button> Restaurar Contraseña</button></a>
-
-  
+  <div class="links">
+  <a href="/api/sessions/github"> Autenticarse con Git</a>
+  <a href="/register"> registrate aquí</a>
+  <a href="/recoverPassword"> Restaurar Contraseña</a>
+  </div>
 </div>
+</div>
+</div>
+
 <script src="js/login.js"></script>
