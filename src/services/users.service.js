@@ -1,4 +1,4 @@
-import { HttpError, HTTP_STATUS } from "../utils/recursos.js";
+import { HttpError, HTTP_STATUS } from "../utils/utils.js";
 import { getDAOS } from "../models/daos/indexDAO.js";
 
 const { usersDao } = getDAOS();
@@ -7,6 +7,16 @@ export class UsersService {
     async getUsers() {
       const users = await usersDao.getUsers();
       return users;
+    }
+    async getUserByMail(mail){
+      if (!mail) {
+        throw new HttpError('Missing param', HTTP_STATUS.BAD_REQUEST)
+      }
+      const user = await usersDao.getUserByMail(mail);
+      if (!user) {
+        throw new HttpError('User not found', HTTP_STATUS.NOT_FOUND)
+      }
+      return user;
     }
 
     async getUserById(id) {
@@ -35,6 +45,17 @@ export class UsersService {
 
       const newUser = await usersDao.createUser(newUserPayload);
       return newUser;
+    }
+    async updateUserRole(id,newRole){
+      if (!id) {
+        throw new HttpError('Missing param', HTTP_STATUS.BAD_REQUEST);
+      }
+      if (!newRole) {
+        throw new HttpError('Missing fields', HTTP_STATUS.BAD_REQUEST);
+      }
+      const updatedUser = await usersDao.updateUser(id, newRole);
+      return updatedUser;
+      
     }
 
     async updateUser(id, payload) {

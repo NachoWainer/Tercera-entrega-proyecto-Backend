@@ -11,6 +11,7 @@ import initializedPassport from "./config/passport.config.js";
 import passport from "passport";
 import productsRouter from "./router/routes/products.routes.js"
 import cartsRouter from "./router/routes/carts.routes.js"
+import userRouter from "./router/routes/users.routes.js"
 import { Server } from "socket.io"
 import  productsModel  from "./models/schemas/products.schema.js"
 
@@ -62,6 +63,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/api/products',productsRouter)
 app.use('/api/carts',cartsRouter)
+app.use('/api/users',userRouter)
 
 app.use('/',viewRouter)
 app.use('/api/sessions',sessionRouter)

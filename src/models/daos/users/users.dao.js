@@ -10,6 +10,10 @@ export class UsersDAO {
     const user = await UsersModel.findOne({ _id: id }).lean();
     return user;
   }
+  async getUserByMail(mail) {
+    const user = await UsersModel.findOne({ email: mail }).lean();
+    return user;
+  }
 
   async createUser(payload) {
     const newUser = await UsersModel.create(payload);
@@ -18,7 +22,7 @@ export class UsersDAO {
 
   async updateUser(id, payload) {
     const updatedUser = await UsersModel.updateOne({ _id: id }, {
-      $set: payload
+      $set: {role:payload}
     });
     return updatedUser;
   }

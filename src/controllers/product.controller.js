@@ -1,16 +1,18 @@
-import {ProductsDAO} from "../models/daos/products/products.dao.js"
+import { ProductService } from "../services/product.service.js"
 
 
+
+const productService = new ProductService();
 class ProductController {
     async getProductsLimit (req,res){
         const limit = req.query.limit
-        const data = await productHandler.getProducts()
+        const data = await productService.getProducts()
         if (!limit) return res.send(data)
         else return res.send(data.slice(0,limit))
     }
     async getProductById (req,res){
-        let id = parseInt(req.params.pid)
-        const {status,message,data} = await productHandler.getProductById(id)
+        let id = req.params.pid
+        const {status,message,data} = await productService.getProductById(id)
         if (data){
             return res.send(
                 {status:status,message:`${message}`,value:data})
@@ -35,7 +37,7 @@ class ProductController {
                 stock,
                 category,
                 thumbnail} = req.body
-        const {stats,message,data} = await productHandler.addProduct(
+        const {stats,message,data} = await productService.addProduct(
             title,description,code,price,status,stock,category,thumbnail,req.app.get('socket'))
         res.send(
             {status:stats,message:`${message}`,value:data})
@@ -43,7 +45,7 @@ class ProductController {
 
     }
     async updateProduct(req,res){
-        let id = parseInt(req.params.pid)
+        let id = req.params.pid
         const {title,
             description,
             code, 
@@ -63,21 +65,37 @@ class ProductController {
             }   
         }
         if (contador === 0) return res.send({"status":400,"message":"No se han solicitado cambios"})
-        if (title !== undefined) result.push(await productHandler.updateProduct(id,"title",title))
-        if (description !== undefined) result.push(await productHandler.updateProduct(id,"description",description))
-        if (code !== undefined) result.push(await productHandler.updateProduct(id,"code",code))
-        if (price !== undefined) result.push(await productHandler.updateProduct(id,"price",price))
-        if (status !== undefined) result.push(await productHandler.updateProduct(id,"status",status))
-        if (stock !== undefined) result.push(await productHandler.updateProduct(id,"stock",stock))
-        if (category !== undefined) result.push(await productHandler.updateProduct(id,"category",category))
-        if (thumbnail !== undefined) result.push(await productHandler.updateProduct(id,"thumbnail",thumbnail))
+        if (title !== undefined) result.push(await productService.updateProduct(id,"title",title))
+        if (description !== undefined) result.push(await productService.updateProduct(id,"description",description))
+        if (code !== undefined) result.push(await productService.updateProduct(id,"code",code))
+        if (price !== undefined) result.push(await productService.updateProduct(id,"price",price))
+        if (status !== undefined) result.push(await productService.updateProduct(id,"status",status))
+        if (stock !== undefined) result.push(await productService.updateProduct(id,"stock",stock))
+        if (category !== undefined) result.push(await productService.updateProduct(id,"category",category))
+        if (thumbnail !== undefined) result.push(await productService.updateProduct(id,"thumbnail",thumbnail))
         res.send(result)
         req.logger.info("ok");
 
     }
     async deleteProduct (req,res){
-        let id = parseInt(req.params.pid)
-        const {stats,message,data} = await productHandler.deleteProduct(id)
+        let id = req.params.pid
+        let user = req.session.user
+        let message = "error"
+        let stats = "error"
+        let data =[]
+        if (user.role === "premium"){
+            const product = await productService.getProductById(id)
+            if (user.email === product.owner){ let message = await productService.deleteProduct(id)} 
+            else {
+                 stats = "error"
+                 message = "Error, you do not own this product"
+                 data = []
+            }}
+        else{
+             message = await productService.deleteProduct(id)
+             stats = "OK"
+             data = []}
+        
         res.send({stats,message,data})
         req.logger.info(`${message}`);
 

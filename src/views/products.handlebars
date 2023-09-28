@@ -1,3 +1,6 @@
+<header class="headerLogout">
+  <a href="/logout"> <button>logout</button></a>
+</header>
 <div>
 {{#if admin}}
   <h1>Bienvenido, administrador {{user.first_name}} {{user.last_name}}</h1>
@@ -7,33 +10,34 @@
  
 <hr/>  
   <h2>Productos disponibles</h2>
-
+{{#if admin}}
   {{#each payload}}
-   
     <p>{{id}}</p>
     <p>{{title}}</p>
     <p>{{category}}</p>
     <p>{{stock}}</p> 
-    {{#if admin}}
     <a data-eliminate-product-id="{{id}}"><button>eliminar producto</button></a>
-    {{/if}}
     <p>{{price}}</p>
-    {{#if admin}}
-    {{else}}
     <a data-product-id="{{id}}"><button>Add to cart</button></a>
-    {{/if}}
     <hr/>
     {{/each}}
-    
-    
- 
+{{else}}
+    {{#each payload}}
+    <p>{{id}}</p>
+    <p>{{title}}</p>
+    <p>{{category}}</p>
+    <p>{{stock}}</p> 
+    <p>{{price}}</p>
+    <a data-product-id="{{id}}"><button>Add to cart</button></a>
+    <hr/>
+    {{/each}}
     {{#if hasPrevPage}}
     <a href="/products?{{prevLink}}"><button>Anterior</button></a>
     {{/if}}
      {{#if hasNextPage}}
     <a href="/products?{{nextLink}}"><button>Siguiente</button></a>
     {{/if}}
-  
+{{/if}}
 </div>
 
 <script>
@@ -68,7 +72,7 @@
       const eliminateProductId = button.getAttribute('data-eliminate-product-id');
       
 
-        fetch(`/api/product/${productId}`, {
+        fetch(`/api/products/${eliminateProductId}`, {
           method: 'DELETE', 
         })
         .then(response => {

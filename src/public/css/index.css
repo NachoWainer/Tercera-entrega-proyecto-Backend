@@ -16,6 +16,10 @@
     align-items: center;
     min-height: 100vh;
     background-color: #1111;
+    background-image:url("../images/icons/flor-de-loto.png") ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    overflow: hidden;
 }
 #loginForm{
     width: 100%;
@@ -105,25 +109,26 @@
 }
 .square{
     position: absolute;
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
    
 }
 .square i{
     position: absolute;
     inset: 0;
-    border: 2px solid #fff;
+    border: 1px solid #fff;
     transition: 0.5s;
 }
 .square i:nth-child(1){
-    border-radius: 100% 62% 63% 37% / 41% 44% 56% 59%;
+    border-radius: 50% 62% 63% 37% / 41% 44% 56% 59%;
     animation: animate 10s linear infinite;
 }
 .square i:nth-child(2){
-    border-radius: 41% 44% 56% 100% / 38% 62% 63% 37%;
+    border-radius: 41% 44% 56% 50% / 38% 62% 63% 37%;
     animation: animate 50s linear infinite;
 }
 

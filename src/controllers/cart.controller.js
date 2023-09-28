@@ -42,11 +42,27 @@ class CartController{
     async addProductToCart(req, res) {
         const cartId = req.params.cid;
         const productId = req.params.pid;
+        const user = req.session.user
         try {
+        if (user.role === "admin"){            
           await cartService.addProductToCart(cartId, productId);
           req.logger.info("product added successfully");
-          res.status(200).send({ message: 'Producto agregado al carrito exitosamente' });
-        } catch (error) {
+          res.status(200).send({ message: 'Producto agregado al carrito exitosamente' });}
+          else{
+            let product = await productService.getProductById(productId)
+            if (product.owner === user.email){
+                await cartService.addProductToCart(cartId, productId);
+                req.logger.info("product added successfully");
+                res.status(200).send({ message: 'Producto agregado al carrito exitosamente' });}
+            else{
+                req.logger.error("you cant add a product you own to the cart");
+                res.status(400).send({ message: 'error - you cant add a product you own to the cart' })
+
+            }
+            } 
+
+          }
+         catch (error) {
             req.logger.error("Failed to add prodcut");
           res.status(500).send({ message: 'Error interno del servidor', error: error.message });
         }

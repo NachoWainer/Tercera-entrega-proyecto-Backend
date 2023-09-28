@@ -38,7 +38,7 @@ export class ProductsDAO{
     }
 
     async deleteProduct (productId){
-       const product = await productsModel.deleteOne({id: productId})
+       const product = await productsModel.deleteOne({_id: productId})
         return product
 
     }

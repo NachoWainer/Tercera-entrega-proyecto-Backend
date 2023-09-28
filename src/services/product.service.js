@@ -17,7 +17,9 @@ export class ProductService{
             if (content.find(element => element.code === code)){
                 throw new HttpError('Code not available', HTTP_STATUS.BAD_REQUEST);
             }
-            const product = await productsDao.addProduct(title, description, code, price, status, stock, category, thumbnail)
+            let owner = "admin"
+            if (req.session.user.role === "premium") owner = req.session.user.email
+            const product = await productsDao.addProduct(title, description, code, price, status, stock, category, thumbnail,owner)
             emitRealTimeProducts()
             return product
     }
@@ -61,14 +63,20 @@ export class ProductService{
     }
 
     async deleteProduct(productId){
+        let message="error missing param"
         if (!productId) {
             throw new HttpError('Missing param', HTTP_STATUS.BAD_REQUEST);
+            return message
         }
         const product = await productsDao.deleteProduct(productId)
         if (!product) {
             throw new HttpError('product not found', HTTP_STATUS.NOT_FOUND);
+            return  message = "product not found"
+            
         } 
-        emitRealTimeProducts()   
+        emitRealTimeProducts()
+        message ="product deleted succesfully"
+        return message
     } 
 }
 
