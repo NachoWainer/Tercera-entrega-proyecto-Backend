@@ -3,7 +3,7 @@ import cartsModel from '../models/schemas/carts.schema.js';
 import usersModel from '../models/schemas/Users.model.js';
 import session from 'express-session';
 import { UserDTO } from '../models/dtos/users.dtos.js';
-import { generateProduct } from '../utils/utils.js';
+import { createHash, generateProduct } from '../utils/utils.js';
 import { generateRandomCode } from '../middlewares/randomCode.js';
 import tokenModel from '../models/schemas/tolken.schema.js';
 import { transporter } from '../middlewares/mail.js';
@@ -163,11 +163,40 @@ class ViewController{
                        http://localhost:8080/reset-password?token=${token}&user=${email}`,
               };
              const result = await transporter.sendMail(mailOptions)
-             console.log(result)
+             req.logger.info(result)
             return res.send('Mail enviado')
           } catch(error){
-            console.log(error)
+            req.logger.error(error)
           }
+    }
+    async resetPass(req,res){
+        let person = req.query.user
+        let token = req.query.token
+        res.render("reset-password",{token:token,user:person})
+    }
+    async changePassword(req,res){
+        let user = req.query.user
+        let newPassword = req.body
+        newPassword = createHash(newPassword.password)
+        try {
+            const usuario = await usersModel.findOne({email:user})
+            if (usuario.password !== newPassword){
+            const result = await usersModel.updateOne({email:user},{password:newPassword})
+            if (!result){
+                req.logger.error("user not found")
+                return
+            }
+            req.logger.info("password updated successfully")
+            return
+            }
+            else{
+                req.logger.info("your new password must be different from your old password")
+                return 
+            }
+        } catch (error) {
+            req.logger.error(error)
+            return
+        }
     }
 }
 
@@ -186,7 +215,9 @@ const {
     mockingProducts,
     testingLogs,
     recoverPass,
-    setRecoverPass
+    setRecoverPass,
+    resetPass,
+    changePassword
     
 } = viewController
 export{
@@ -202,6 +233,8 @@ export{
     mockingProducts,
     testingLogs,
     recoverPass,
-    setRecoverPass
+    setRecoverPass,
+    resetPass,
+    changePassword
   
 }

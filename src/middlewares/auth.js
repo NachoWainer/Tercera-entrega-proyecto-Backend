@@ -23,7 +23,28 @@ export function notAdmin(req,res,next){
     else res.status(403).send("access denied, must be admin")
 }
 export async function checkToken(req,res,next){
-    const token = req.params.token
+    const token = req.query.token
+    if (!token) return res.status(403).send("access denied empty token")
+    else{
+        const access = await tokenModel.findOne({token: token})
+        if (!access) {
+        res.status(403).send("access denied wrong token")
+        return}
+        let currentTime = new Date().getTime()
+        let tokenTime = access.date.getTime()
+        if (currentTime - tokenTime >= 3600000){
+            res.status(403).send("access denied token expired")
+            await tokenModel.deleteOne({token: token})
+            return
+        }
+        else{
+            next()
+        }
+    }
+}
+
+export async function checkResetPassToken(req,res,next){
+    const token = req.query.token
     if (!token) res.status(403).send("access denied empty token")
     else{
         const access = await tokenModel.findOne({token: token})
@@ -34,7 +55,8 @@ export async function checkToken(req,res,next){
         let tokenTime = access.date.getTime()
         await tokenModel.deleteOne({token: token})
         if (currentTime - tokenTime >= 3600000){
-            res.status(403).send("access denied token expired")
+            res.status(403).send("access denied token expired please start this process again")
+            return
         }
         else{
             res.status(200).send("success")
