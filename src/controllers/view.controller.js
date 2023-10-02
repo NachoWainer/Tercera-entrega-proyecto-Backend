@@ -3,10 +3,11 @@ import cartsModel from '../models/schemas/carts.schema.js';
 import usersModel from '../models/schemas/Users.model.js';
 import session from 'express-session';
 import { UserDTO } from '../models/dtos/users.dtos.js';
-import { createHash, generateProduct } from '../utils/utils.js';
+import { createHash, generateProduct, isValidPassword } from '../utils/utils.js';
 import { generateRandomCode } from '../middlewares/randomCode.js';
 import tokenModel from '../models/schemas/tolken.schema.js';
 import { transporter } from '../middlewares/mail.js';
+
 
 
 
@@ -174,30 +175,36 @@ class ViewController{
         let token = req.query.token
         res.render("reset-password",{token:token,user:person})
     }
-    async changePassword(req,res){
-        let user = req.query.user
-        let newPassword = req.body
-        newPassword = createHash(newPassword.password)
+    async changePassword(req, res) {
+        let user = req.query.user;
+        let newPassword = req.body.password; // Suponemos que el nuevo campo de contraseña se llama "password"
+      
         try {
-            const usuario = await usersModel.findOne({email:user})
-            if (usuario.password !== newPassword){
-            const result = await usersModel.updateOne({email:user},{password:newPassword})
-            if (!result){
-                req.logger.error("user not found")
-                return
-            }
-            req.logger.info("password updated successfully")
-            return
-            }
-            else{
-                req.logger.info("your new password must be different from your old password")
-                return 
-            }
+          const usuario = await usersModel.findOne({ email: user });
+      
+          if (!usuario) {
+            req.logger.error("User not found");
+            return;
+          }
+          if (isValidPassword(usuario, newPassword)) {
+            req.logger.info("Your new password must be different from your old password");
+            return;
+          }
+          newPassword = createHash(newPassword);
+          const result = await usersModel.updateOne({ email: user }, { password: newPassword });
+      
+          if (result) {
+            req.logger.info("Password updated successfully");
+            return;
+          } else {
+            req.logger.error("Failed to update password");
+            return;
+          }
         } catch (error) {
-            req.logger.error(error)
-            return
+          req.logger.error(error);
+          return;
         }
-    }
+      }
 }
 
 const viewController = new ViewController()
