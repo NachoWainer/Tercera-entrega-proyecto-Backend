@@ -1,4 +1,4 @@
-import tokenModel from "../models/schemas/tolken.schema";
+import tokenModel from "../models/schemas/tolken.schema.js";
 
 export function userRole(req,res,next){
     const user = req.session.user;

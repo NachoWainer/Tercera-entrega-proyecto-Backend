@@ -4,6 +4,10 @@ import usersModel from '../models/schemas/Users.model.js';
 import session from 'express-session';
 import { UserDTO } from '../models/dtos/users.dtos.js';
 import { generateProduct } from '../utils/utils.js';
+import { generateRandomCode } from '../middlewares/randomCode.js';
+import tokenModel from '../models/schemas/tolken.schema.js';
+import { transporter } from '../middlewares/mail.js';
+
 
 
 class ViewController{
@@ -136,7 +140,35 @@ class ViewController{
         req.logger.warning('FUNCIONA');
         req.logger.http("!");
         req.logger.debug('MODO DESARROLLO');
-    }     
+    }  
+    
+    async recoverPass(req,res){
+        res.render("recoverPassword")
+    }
+    async setRecoverPass(req,res){
+        const email = req.body.email
+        
+        try {
+            let user = await usersModel.findOne({email:email})
+
+            if (!user) {return res.status(404).send({message:"user not found"})}
+            const token = generateRandomCode(16)
+            await tokenModel.create({token:token})
+            
+            const mailOptions = {
+                from: 'nachocodertest@gmail.com',
+                to: email,
+                subject: 'Restablecer contraseña',
+                text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: 
+                       http://localhost:8080/reset-password?token=${token}&user=${email}`,
+              };
+             const result = await transporter.sendMail(mailOptions)
+             console.log(result)
+            return res.send('Mail enviado')
+          } catch(error){
+            console.log(error)
+          }
+    }
 }
 
 const viewController = new ViewController()
@@ -152,7 +184,9 @@ const {
     products,
     current,
     mockingProducts,
-    testingLogs
+    testingLogs,
+    recoverPass,
+    setRecoverPass
     
 } = viewController
 export{
@@ -166,6 +200,8 @@ export{
     products,
     current,
     mockingProducts,
-    testingLogs
+    testingLogs,
+    recoverPass,
+    setRecoverPass
   
 }

@@ -1,5 +1,5 @@
 import express from 'express'
-import { notAdmin, userRole } from "../middlewares/auth.js";
+import { notAdmin, userRole,checkToken } from "../middlewares/auth.js";
 import{
     register,
     login,
@@ -11,7 +11,9 @@ import{
     products,
     current,
     mockingProducts,
-    testingLogs
+    testingLogs,
+    recoverPass,
+    setRecoverPass
 } from "../controllers/view.controller.js"
 import { changeRole } from '../controllers/user.controller.js';
 
@@ -29,7 +31,8 @@ router.get('/current',userRole,current)
 router.get('/mockingProducts',userRole,mockingProducts)
 router.get('/loggerTest',testingLogs)
 router.get('/premium/:uid',notAdmin,changeRole) 
-router.get("/recoverPass", recoverPass)
+router.get("/recoverPassword", recoverPass)
+router.post("/setRecoverPassword", setRecoverPass)
 router.get("/reset-pass",checkToken,recoverPass)
 
 
