@@ -1,0 +1,196 @@
+paths:
+  /api/carts:
+    post:
+      summary: Crea un carrito vacío
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: Carrito creado con éxito
+        "403":
+          description: Fallo al crear el carrito
+
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carritos
+      responses:
+        "200":
+          description: Carritos obtenidos con éxito
+        "404":
+          description: Carritos no encontrados
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito por su ID
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito obtenido con éxito
+        "404":
+          description: Carrito no encontrado
+
+    put:
+      summary: Actualiza todos los productos en un carrito
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito actualizado con éxito
+
+    delete:
+      summary: Elimina un carrito y todos sus productos
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito eliminado con éxito
+
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agrega un producto a un carrito por ID
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto agregado al carrito con éxito
+        "400":
+          description: No se puede agregar un producto propio al carrito
+
+    delete:
+      summary: Elimina un producto de un carrito por ID
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto eliminado del carrito con éxito
+
+  /api/carts/{cid}/products/{pid}:
+    put:
+      summary: Actualiza la cantidad de un producto en un carrito
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cantidad de producto actualizada con éxito
+
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Finaliza un pedido en un carrito por ID
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Pedido finalizado con éxito
+        "400":
+          description: Carrito o productos indefinidos o no son una matriz
+
+    delete:
+      summary: Elimina todos los productos de un carrito por ID
+      tags:
+        - Carritos
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Todos los productos eliminados del carrito con éxito
+        "404":
+          description: Carrito no encontrado
+
+components:
+  schemas:
+    CartModel:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: ObjectId 
+              quantity:
+                type: number
+      required:
+        - products
+      example:
+        products:
+          - _id: "5f7b7c6d8e9f0a1b2c3d4e5f"
+            quantity: 2
+          - _id: "5f7b7c6d8e9f0a1b2c3d4e5e"
+            quantity: 1
+
+

@@ -1,0 +1,45 @@
+paths:
+  /api/users/{UserId}:
+    get:
+      summary: cambia el rol de un usuario de premium a user y vice-versa
+      tags:
+        - Users
+      responses:
+      "200":
+        description: User role changed successfully
+      "404":
+        description: User not found
+      "500":
+        description: Change could not be compleated
+
+components:
+  schemas:
+    UserModel:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        age:
+          type: string
+        password:
+          type: string
+        cart:
+          type: object
+          properties:
+            _id:
+              type: string
+      required:
+        - first_name
+        - last_name
+        - email
+        - password
+      example:
+        first_name: Juan
+        last_name: Perez
+        email: juanperez@ejemplo.com
+        age: 30
+        password: mypassword

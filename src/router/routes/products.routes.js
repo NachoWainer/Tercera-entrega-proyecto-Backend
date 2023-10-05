@@ -10,8 +10,8 @@ import {
 
 const router = Router();
 
-router.get('/',getProductsLimit) // gets products by params limit and 
-router.get('/:pid',getProductById) // get product by id 
+router.get('/',getProductsLimit)  
+router.get('/:pid',getProductById) 
 router.post('/',premiumRole,createProduct)  
 router.put('/:pid',adminRole,updateProduct)
 router.delete('/:pid',premiumRole,deleteProduct)

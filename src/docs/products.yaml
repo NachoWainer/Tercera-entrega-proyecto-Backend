@@ -1,0 +1,166 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene una lista limitada de productos
+      tags:
+        - Productos
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          description: Número máximo de productos a obtener
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Productos obtenidos con éxito
+
+    post:
+      summary: Crea un nuevo producto
+      tags:
+        - Productos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                code:
+                  type: string
+                price:
+                  type: number
+                status:
+                  type: string
+                stock:
+                  type: integer
+                category:
+                  type: string
+                thumbnail:
+                  type: string
+      responses:
+        "201":
+          description: Producto creado con éxito
+        "403":
+          description: No tienes permisos para crear productos
+
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto por su ID
+      tags:
+        - Productos
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto obtenido con éxito
+        "404":
+          description: Producto no encontrado
+
+    put:
+      summary: Actualiza un producto por su ID
+      tags:
+        - Productos
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                code:
+                  type: string
+                price:
+                  type: number
+                status:
+                  type: string
+                stock:
+                  type: integer
+                category:
+                  type: string
+                thumbnail:
+                  type: string
+      responses:
+        "200":
+          description: Producto actualizado con éxito
+        "403":
+          description: No tienes permisos para actualizar el producto
+
+    delete:
+      summary: Elimina un producto por su ID
+      tags:
+        - Productos
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto eliminado con éxito
+        "403":
+          description: No tienes permisos para eliminar el producto
+
+components:
+  schemas:
+    ProductModel:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        price:
+          type: number
+        status:
+          type: boolean
+        stock:
+          type: number
+        category:
+          type: string
+        thumbnail:
+          type: string
+        owner:
+          type: string
+          description: email del usuario creador del producto o admin por defecto
+      required:
+        - title
+        - description
+        - code
+        - price
+        - stock
+        - category
+      example:
+        title: Producto1
+        description: ejemplo
+        code: ABC123
+        price: 200
+        status: true
+        stock: 100
+        category: Arte
+        thumbnail: producto1.jpg
+        owner: admin

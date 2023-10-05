@@ -87,7 +87,7 @@ class ProductController {
             const product = await productService.getProductById(id)
             if (user.email === product.owner){ let message = await productService.deleteProduct(id)} 
             else {
-                 stats = "error"
+                 stats = 403
                  message = "Error, you do not own this product"
                  data = []
             }}

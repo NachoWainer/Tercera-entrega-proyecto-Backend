@@ -19,9 +19,31 @@ import  productsModel  from "./models/schemas/products.schema.js"
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import messagesModel from "./models/schemas/messages.schema.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const swaggerOptions ={
+  definition:{
+    openapi: '3.0.0',
+    info:{
+      title:'Documentacion de las APIs',
+      description: 'Ecommerce proyect',
+      version: '1.0.0',
+      contact: {
+        name:"Ignacio Wainer" ,
+        url: "https://www.linkedin.com/in/ignacio-wainer-29a1b4255/"
+
+      } 
+      
+    }
+  },
+  apis:[`${process.cwd()}/src/docs/*.yaml`],
+  //apis:[`${__dirname}/docs/**/*.yaml`]
+}
+const spec = swaggerJSDoc(swaggerOptions)
+
 
 const app =express();
 const PORT=8080;
@@ -67,6 +89,7 @@ app.use('/api/users',userRouter)
 
 app.use('/',viewRouter)
 app.use('/api/sessions',sessionRouter)
+app.use('/apidocs',swaggerUiExpress.serve,swaggerUiExpress.setup(spec))
 
 
 
