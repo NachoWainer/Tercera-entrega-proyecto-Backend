@@ -10,7 +10,7 @@ export class CartService{
         return carts        
     } 
     async addCart() {
-        const newCart = await cartsDao.createCart(payload)
+        const newCart = await cartsDao.createCart()
         return newCart
     }
     async getCartById(cartId) {
