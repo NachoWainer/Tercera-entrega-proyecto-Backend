@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "cross-env NODE_ENV=PRODUCCION nodemon src/server.js",
+    "start": "cross-env NODE_ENV=PRODUCCION MODO=TEST nodemon src/server.js",
     "dev": "cross-env NODE_ENV=DESARROLLO nodemon src/server.js",
     "test-sessions": "cross-env MODO=TEST mocha test/router/sessions.test.js",
     "test-carts": "cross-env MODO=TEST mocha test/router/carts.test.js",

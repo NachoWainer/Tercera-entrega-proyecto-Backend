@@ -1,6 +1,8 @@
 import { expect } from "chai";
 import { dropProducts } from "../setup.test.js";
 import supertest from "supertest";
+import "dotenv/config"
+
 
 
 const requester = supertest('http://localhost:8080')
@@ -23,7 +25,6 @@ describe("",()=>{
                 "thumbnail":"thumbnail"
         }
         const response = await requester.post('/api/products').send(mockProduct)
-        console.log(response)
         expect(response.statusCode).to.be.eql(200)
     })
 
