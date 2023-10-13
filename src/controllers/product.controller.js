@@ -37,7 +37,8 @@ class ProductController {
                 stock,
                 category,
                 thumbnail} = req.body
-        const {stats,message,data} = await productService.addProduct(
+        const user = req.session.user
+        const {stats,message,data} = await productService.addProduct(user,
             title,description,code,price,status,stock,category,thumbnail,req.app.get('socket'))
         res.send(
             {status:stats,message:`${message}`,value:data})

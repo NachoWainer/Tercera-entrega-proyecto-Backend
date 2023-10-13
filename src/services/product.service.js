@@ -4,24 +4,37 @@ import { HttpError,HTTP_STATUS } from "../utils/utils.js";
 const {productsDao} = getDAOS();
 export class ProductService{
 
-    async addProduct(
+    async addProduct(user,
         title, description, code, price, status, stock, category, thumbnail){
+            let message,stats,data
             if (!isNaN(title)||!isNaN(description)||!isNaN(category)||!isNaN(code))throw new HttpError('title description category and code must be text', HTTP_STATUS.BAD_REQUEST);
             if (title === undefined || title.replace(/\s/g, '') === "" || description.replace(/\s/g, '') === "" ||description === undefined || 
                 category.replace(/\s/g, '') === ""|| category === undefined || price === undefined || code.replace(/\s/g, '') === ""|| code === undefined || stock === undefined) {
                     throw new HttpError('Missing param', HTTP_STATUS.BAD_REQUEST);
+                    message='Missing param'
+                    stats = 400
+                    data = 0
             }
             if (status === undefined) status = true
             if (isNaN(stock) || Number(stock) === null || isNaN(price) || Number(price) === null) throw new HttpError('price and stock fields must be numbers', HTTP_STATUS.BAD_REQUEST);
-            const content = await productsModel.find().lean();  
+            const content = await productsDao.getProducts();  
             if (content.find(element => element.code === code)){
                 throw new HttpError('Code not available', HTTP_STATUS.BAD_REQUEST);
+                message='Code not available'
+                stats = 400
+                data = 0
             }
             let owner = "admin"
-            if (req.session.user.role === "premium") owner = req.session.user.email
+            if (user != undefined && user.role === "premium") owner = user.email
             const product = await productsDao.addProduct(title, description, code, price, status, stock, category, thumbnail,owner)
             emitRealTimeProducts()
-            return product
+            if (product){
+                message='OK'
+                stats = 200
+                data = product
+
+            }
+            return {stats,message,data}
     }
 
     async getProducts(filter) {

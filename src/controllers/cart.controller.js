@@ -22,7 +22,7 @@ class CartController{
 
     async createCart(req,res){
         const newCart = await cartService.addCart()  
-        if (newCart.error != 1) {
+        if (!newCart) {
             req.logger.error("Failed to create cart");
             return res.status(403).send({message:"Failed to create cart"})}
         req.logger.info("Cart created successfully");

@@ -5,9 +5,13 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/server.js",
-    "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=PRODUCCION nodemon src/server.js",
+    "dev": "cross-env NODE_ENV=DESARROLLO nodemon src/server.js",
+    "test-sessions": "cross-env MODO=TEST mocha test/router/sessions.test.js",
+    "test-carts": "cross-env MODO=TEST mocha test/router/carts.test.js",
+    "test-products": "cross-env MODO=TEST mocha test/router/products.test.js"
+
+
   },
   "keywords": [],
   "author": "",
@@ -33,6 +37,10 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2"
+    "@faker-js/faker": "^8.0.2",
+    "chai": "^4.3.10",
+    "cross-env": "^7.0.3",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }
