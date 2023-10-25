@@ -13,7 +13,12 @@ const schema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'carts'}
       },
-    role:{type:String, default:"usuario"}    
+    role:{type:String, default:"usuario"},   
+    documents:[{
+      name: String,
+      reference:String
+    }],
+    last_connection:String
 })
 const usersModel =model(collection,schema)
 export default usersModel;

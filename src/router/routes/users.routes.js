@@ -7,6 +7,7 @@ import {
 const router = Router();
 
 router.get('/premium/:uid',notAdmin,changeRole) 
+router.post('/:uid/documents',notAdmin,changeRole) 
 
 
 export default router
