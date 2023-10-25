@@ -16,7 +16,7 @@ class SessionController{
     async failRegister(req,res){
         res.send({error:"failed"})
     }
-   async login (req,res){
+   async login (req,res){ //actualizar info de lasat login
         const {email , password} = req.body
         if (!req.user) return res.status(400).send({status:"error", error:"Wrong password"})
         req.session.user={

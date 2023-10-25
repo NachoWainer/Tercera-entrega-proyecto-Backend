@@ -22,13 +22,30 @@ class ProductController {
             return res.status(500).send({message:"internal sercer error"})
         }
     }
+    async documentUpload(req,res){
+        const userId = req.params.uid;
+        const folder = req.body.folder;
+        const files = req.files;
+      
+        try {
+            const updatedUser = await usersService.uploadDocument(userId, folder, files);
+        
+            console.log('Archivos subidos:', files);
+            res.send('Archivos subidos correctamente');
+          } catch (error) {
+            console.error('Error al cargar documentos:', error);
+            res.status(error.status || 500).send(error.message);
+          }
+        }
 }
 
 const productController = new ProductController()
 const {
-    changeRole
+    changeRole,
+    documentUpload
     
 } = productController
 export{
-   changeRole
+   changeRole,
+   documentUpload
 }

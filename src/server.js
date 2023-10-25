@@ -14,6 +14,7 @@ import cartsRouter from "./router/routes/carts.routes.js"
 import userRouter from "./router/routes/users.routes.js"
 import { Server } from "socket.io"
 import  productsModel  from "./models/schemas/products.schema.js"
+import multer from "multer";
 
 
 import { fileURLToPath } from "url";
@@ -52,6 +53,7 @@ const socketServer = new Server(httpServer)
 app.use(addLogger)
 
 
+
 mongoose.set('strictQuery',false)
 const connection= mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@codercluster.23a6ufo.mongodb.net/${process.env.MONGO_DB}`
 ,{
@@ -83,6 +85,21 @@ app.use(express.static(__dirname+'/public'))
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
+const storage = multer.diskStorage({
+  destination: (req,file,cb) =>{
+    let store = "default"
+    let folder =req.body.folder
+    if (folder == "profiles") store = "profiles"
+    else if (folder == "products") store = "products"
+    else if  (folder == "documents") store = "documents"
+    cb(null,`public/uploads/${store}`)
+  },
+  filename:(req,file,cb)=>{
+    cb(null, `${Date.now()}-${file.originalname}`)
+  },
+})
+
 app.use('/api/products',productsRouter)
 app.use('/api/carts',cartsRouter)
 app.use('/api/users',userRouter)

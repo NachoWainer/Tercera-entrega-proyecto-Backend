@@ -72,4 +72,27 @@ export class UsersService {
       const updatedUser = await usersDao.updateUser(id, updatePayload);
       return updatedUser;
     }
+
+
+    async uploadDocument(userId, folder, files) {
+      if (!userId || !folder || !files || files.length === 0) {
+        throw new HttpError('Missing or invalid parameters', HTTP_STATUS.BAD_REQUEST);
+      }
+      const user = await usersDao.getUserById(userId);
+      if (!user) {
+        throw new HttpError('User not found', HTTP_STATUS.NOT_FOUND);
+      }
+  
+      const documentField = `documentStatus.${folder}`;
+  
+      files.forEach((file) => {
+        user.documents.push({
+          name: file.originalname,
+          reference: file.path, 
+        });
+      });
+      const updatedUser = await usersDao.updateUser(userId, user);
+      return updatedUser;
+    }
+
 }

@@ -8,7 +8,7 @@ import userModel from "../models/schemas/Users.model.js"
 import { createHash, isValidPassword } from "../utils/utils.js"
 
 const LocalStrategy = local.Strategy
-
+ 
 const initializedPassport = ()=>{
     passport.use("github", new GitHubStrategy({
     clientID:`${process.env.GITHUB_CLIENTID}`,
