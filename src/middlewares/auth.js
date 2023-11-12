@@ -1,4 +1,15 @@
 import tokenModel from "../models/schemas/tolken.schema.js";
+import Toastify from 'toastify-js'
+
+export function anyRole(req,res,next){
+    if (process.env.MODO === "TEST") next();
+    else{
+    const user = req.session.user;
+    if (user && (user.role === 'usuario' || user.role === 'admin' || user.role === 'premium') ) next();
+    else {
+          
+       res.redirect("/api/sessions/faillogin")}
+}}
 
 export function userRole(req,res,next){
     if (process.env.MODO === "TEST") next();

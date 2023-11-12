@@ -1,5 +1,5 @@
 import express from 'express'
-import { notAdmin, userRole,checkToken,checkResetPassToken } from "../middlewares/auth.js";
+import { notAdmin, userRole,checkToken,checkResetPassToken, anyRole } from "../middlewares/auth.js";
 import{
     register,
     login,
@@ -28,7 +28,7 @@ router.get('/realtimeproducts',realTimeProducts)
 router.get('/chat',userRole,chat)
 router.get('/cart/:cid',cartId)
 router.get('/cart',userCart)
-router.get('/products',products)
+router.get('/products',anyRole,products)
 router.get('/current',userRole,current)
 router.get('/mockingProducts',userRole,mockingProducts)
 router.get('/loggerTest',testingLogs)

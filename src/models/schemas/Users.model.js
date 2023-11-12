@@ -18,7 +18,7 @@ const schema = new Schema({
       name: String,
       reference:String
     }],
-    last_connection:String
+    last_connection:{type:Date}
 })
 const usersModel =model(collection,schema)
 export default usersModel;

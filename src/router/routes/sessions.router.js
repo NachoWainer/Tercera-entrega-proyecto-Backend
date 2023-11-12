@@ -14,9 +14,10 @@ import{
 const router = Router()
 router.get("/github", passport.authenticate("github",{scope:["user:email"]}),async(req,res)=>{})
 router.get("/githubcallback", passport.authenticate("github",{failureRedirect:"/"}),gitCallback)
-router.post("/register", passport.authenticate("register",{failureRedirect:"/failregister"}),register)
+router.post("/register", passport.authenticate("register",{failureRedirect:"/api/sessions/failregister"}),register)
 router.get("/failregister",failRegister)
-router.post("/login",passport.authenticate("login",{failureRedirect:"/faillogin"}), login)    
+router.post("/login",passport.authenticate("login",{failureRedirect:"/api/sessions/faillogin"}), login)  
+
 router.get("/faillogin", failLogin)
 router.post("/recoverPassword", recoverPass)
 router.get("/current", currentUser)

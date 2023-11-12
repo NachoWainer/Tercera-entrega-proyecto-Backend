@@ -3,6 +3,8 @@ import { createHash, isValidPassword } from "../utils/utils.js";
 import {UserDTO} from "../models/dtos/users.dtos.js"
 import usersModel from "../models/schemas/Users.model.js";
 import { addLogger } from "../../utils/logger.js";
+import Toastify from "toastify-js";
+
 
 class SessionController{
     async gitCallback(req,res){
@@ -16,21 +18,31 @@ class SessionController{
     async failRegister(req,res){
         res.send({error:"failed"})
     }
-   async login (req,res){ //actualizar info de lasat login
+    async login (req,res){ 
         const {email , password} = req.body
-        if (!req.user) return res.status(400).send({status:"error", error:"Wrong password"})
-        req.session.user={
-        first_name:req.user.first_name,
-        last_name:req.user.last_name,
-        age: req.user.age,
-        email:req.user.email,
-        password:req.user.password,
-        cart:req.user.cart._id,
-        role:req.user.role}
-        res.send({status:"success",payload: req.user})
+        try {
+            const currentDate = new Date()
+            await usersModel.updateOne({_id:req.user._id},{last_connection: currentDate })
+            if (!req.user) return res.status(400).send({status:"error", error:"Wrong password"})
+            req.session.user={
+            first_name:req.user.first_name,
+            last_name:req.user.last_name,
+            age: req.user.age,
+            email:req.user.email,
+            password:req.user.password,
+            cart:req.user.cart._id,
+            role:req.user.role}
+            res.send({status:"success",payload: req.user})
+            
+        } catch (error) {
+            return res.status(400).send({status:"error", error:"login failed"})            
+        }
+        
     }
-    async failLogin(req,res){
-        res.send({error:"failed"})
+    async failLogin(req,res){        
+        
+        res.redirect("/")
+    
     }
     async recoverPass (req,res){
         const {email,password} = req.body

@@ -95,4 +95,12 @@ export class UsersService {
       return updatedUser;
     }
 
+    async deleteUsers(userId,cartId){
+      if (!userId){
+        throw new HttpError('Missing or invalid parameters', HTTP_STATUS.BAD_REQUEST);
+      }
+      const deletedUser = await usersDao.deleteUser(userId,cartId)
+      if (deletedUser == -1) throw new HttpError('User not found', HTTP_STATUS.NOT_FOUND);
+    }
+
 }

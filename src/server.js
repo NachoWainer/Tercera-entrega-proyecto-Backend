@@ -86,19 +86,7 @@ app.use(express.static(__dirname+'/public'))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-const storage = multer.diskStorage({
-  destination: (req,file,cb) =>{
-    let store = "default"
-    let folder =req.body.folder
-    if (folder == "profiles") store = "profiles"
-    else if (folder == "products") store = "products"
-    else if  (folder == "documents") store = "documents"
-    cb(null,`public/uploads/${store}`)
-  },
-  filename:(req,file,cb)=>{
-    cb(null, `${Date.now()}-${file.originalname}`)
-  },
-})
+
 
 app.use('/api/products',productsRouter)
 app.use('/api/carts',cartsRouter)
@@ -159,5 +147,5 @@ socketServer.on('connection',async (socket) =>{
         realTimeProducts = JSON.parse(realTimeProducts)
         socket.emit('realTimeProducts',realTimeProducts)
 })*/
-   
+
 })

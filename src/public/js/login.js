@@ -1,3 +1,4 @@
+
 const form= document.getElementById("loginForm")
 
 form.addEventListener("submit", e =>{
@@ -5,6 +6,7 @@ form.addEventListener("submit", e =>{
     const data = new FormData(form)
     const obj={}
     data.forEach((value,key)=>obj[key] = value)
+    console.log("HOLA")
 
     fetch("/api/sessions/login",{
         method:"POST",
@@ -13,9 +15,15 @@ form.addEventListener("submit", e =>{
             "Content-type":"application/json"
         }
     })
-    .then(result =>{
+    .then(result => {
+        console.log(result)
+        
         if(result.status === 200){
             window.location.replace('/products')
+        }
+        else{
+            window.location.replace('/')
+
         }
 
     })

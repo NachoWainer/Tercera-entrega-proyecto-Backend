@@ -50,7 +50,7 @@ class CartController{
           res.status(200).send({ message: 'Producto agregado al carrito exitosamente' });}
           else{
             let product = await productService.getProductById(productId)
-            if (product.owner === user.email){
+            if (product.owner !== user.email){
                 await cartService.addProductToCart(cartId, productId);
                 req.logger.info("product added successfully");
                 res.status(200).send({ message: 'Producto agregado al carrito exitosamente' });}

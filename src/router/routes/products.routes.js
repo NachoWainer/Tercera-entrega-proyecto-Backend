@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { adminRole, premiumRole } from "../../middlewares/auth.js";
+import { adminRole, anyRole, premiumRole,  } from "../../middlewares/auth.js";
 import {
     getProductsLimit,
     getProductById,
@@ -10,7 +10,7 @@ import {
 
 const router = Router();
 
-router.get('/',getProductsLimit)  
+router.get('/',anyRole,getProductsLimit)  
 router.get('/:pid',getProductById) 
 router.post('/',premiumRole,createProduct)  
 router.put('/:pid',adminRole,updateProduct)

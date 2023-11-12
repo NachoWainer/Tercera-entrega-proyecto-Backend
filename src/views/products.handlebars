@@ -12,24 +12,23 @@
   <h2>Productos disponibles</h2>
 {{#if admin}}
   {{#each payload}}
-    <p>{{id}}</p>
     <p>{{title}}</p>
-    <p>{{category}}</p>
-    <p>{{stock}}</p> 
+    <p>Disponibles:{{stock}}</p> 
     <a data-eliminate-product-id="{{id}}"><button>eliminar producto</button></a>
-    <p>{{price}}</p>
+    <p>${{price}}</p>
     <a data-product-id="{{id}}"><button>Add to cart</button></a>
     <hr/>
     {{/each}}
 {{else}}
     {{#each payload}}
-    <p>{{id}}</p>
+
+    <div>
     <p>{{title}}</p>
-    <p>{{category}}</p>
-    <p>{{stock}}</p> 
-    <p>{{price}}</p>
+    <p>Disponibles:{{stock}}</p> 
+    <p>${{price}}</p>
     <a data-product-id="{{id}}"><button>Add to cart</button></a>
-    <hr/>
+    </div>
+
     {{/each}}
     {{#if hasPrevPage}}
     <a href="/products?{{prevLink}}"><button>Anterior</button></a>

@@ -60,7 +60,6 @@ class ViewController{
     
 
        async products(req,res){
-
         const page=(req.query.page!=undefined) ? parseInt(req.query.page) : 1
         const limite = (req.query.limit != undefined) ? parseInt(req.query.limit) : 10 
         let sort = null
@@ -101,6 +100,7 @@ class ViewController{
         })
         
     } catch (error) {
+      
     
         const payload = []
         const prevPage = ""

@@ -1,4 +1,6 @@
+import usersModel from "../../schemas/Users.model.js";
 import UsersModel from "../../schemas/Users.model.js";
+import cartsModel from "../../schemas/carts.schema.js";
 
 export class UsersDAO {
   async getUsers() {
@@ -25,5 +27,16 @@ export class UsersDAO {
       $set: {role:payload}
     });
     return updatedUser;
+  }
+  async deleteUser(id,cartid){
+    try {
+      const deleteCart = await cartsModel.deleteOne({_id:cartid})
+      const deletedUser = await usersModel.deleteOne({_id: id})
+      return 1
+      
+    } catch (error) {
+      return -1
+      
+    }
   }
 }
