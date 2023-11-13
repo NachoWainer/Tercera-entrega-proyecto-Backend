@@ -41,7 +41,8 @@ class SessionController{
     }
     async failLogin(req,res){        
         
-        res.redirect("/")
+        res.status(401).json({ message: "Credenciales incorrectas" });
+       // res.redirect("/")
     
     }
     async recoverPass (req,res){

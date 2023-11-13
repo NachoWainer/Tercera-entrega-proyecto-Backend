@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "cross-env NODE_ENV=PRODUCCION nodemon src/server.js",
+    "start": "cross-env NODE_ENV=PRODUCCION MODO=TEST nodemon src/server.js",
     "dev": "cross-env NODE_ENV=DESARROLLO nodemon src/server.js",
     "test-sessions": "cross-env MODO=TEST mocha test/router/sessions.test.js",
     "test-carts": "cross-env MODO=TEST mocha test/router/carts.test.js",
@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "bootstrap": "^5.3.2",
     "connect-mongo": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -32,6 +33,7 @@
     "socket.io": "^4.7.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
+    "sweetalert2": "^11.9.0",
     "toastify-js": "^1.12.0",
     "winston": "^3.10.0"
   },

@@ -52,7 +52,8 @@ export async function checkToken(req,res,next){
         return}
         let currentTime = new Date().getTime()
         let tokenTime = access.date.getTime()
-        if (currentTime - tokenTime >= 3600000){
+        
+        if ((currentTime - tokenTime) >= 3600000){
             res.status(403).send("access denied token expired")
             await tokenModel.deleteOne({token: token})
             return

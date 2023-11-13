@@ -1,18 +1,17 @@
-<div>
-  <h1>Productos en el carrito de {{user.first_name}}</h1>
+<div class="cart-container">
+  <h1 class="cart-title">Productos en el carrito de {{user.first_name}}</h1>
 
   {{#each products}}
-    <p>id: {{_id._id}}</p>
-    <p>name: {{_id.title}}</p>
-    <p>quantity: {{quantity}}</p>
-    <p>price: $ {{_id.price}}</p>
-    <hr/>
-
-    {{/each}}
-  <button id="finishOrder">finish order</button>
-    
-   
+    <div class="cart-item">
+      <p class="item-info">id: {{_id._id}}</p>
+      <p class="item-info">name: {{_id.title}}</p>
+      <p class="item-info">quantity: {{quantity}}</p>
+      <p class="item-info">price: $ {{_id.price}}</p>
+      <hr class="item-divider"/>
+    </div>
+  {{/each}}
   
+  <button id="finishOrder" class="finish-button">Finalizar compra</button>
 </div>
 <script>
   

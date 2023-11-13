@@ -1,194 +1,501 @@
 *{
     margin: 0;
     padding: 0;
-    
-
-    
+  
 }
 
 
 
 
 /*---------------------------LOGIN---------------------------------------------*/
-.login-box{
+.login-box {
+    background-color: #E2E8CE; /* Fondo de la página */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #1111;
-    background-image:url("../images/icons/flor-de-loto.png") ;
-    background-repeat: no-repeat;
-    background-position: center center;
+    height: 100vh; /* Establece la altura al 100% del viewport */
     overflow: hidden;
-}
-#loginForm{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
     
-}
-.login{
-    position: absolute;
-    width: 400px;
-    height: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-}
-.login h2{
-    font-size: 3em;
-    color: #fff;
-}
-.login .inputBox{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-.login .inputBox input{
-    position: relative;
-    align-items: center;
-    width: 70%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
-    
-    background: transparent;
-    border: 2px solid #fff;
-    border-radius: 40px;
-    font-size: 1.5em;
-    color:#fff;
-    box-shadow: none;
-    outline:none
-}
-.login .inputBox input[type="submit"]{
-    position: relative;
-    width:100%;
-    background: linear-gradient(45deg,#ff357a,#fff172);
-    
-    cursor: pointer;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-#submit-login{
-    margin: 0 auto; /* Add margin to center horizontally */
-    width: 70%;
-    background: transparent;
+  }
+  
+  /* Estilos del cuadrado */
+  .square {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos del formulario de inicio de sesión */
+  .login {
+    text-align: center;
+  }
+  
+  /* Estilos de los campos de entrada y el botón */
+  .inputBox {
+    margin-bottom: 15px;
+  }
+  
+  .inputBox input {
+    width: calc(100% - 16px); /* Ancho ajustado con márgenes a ambos lados */
+    padding: 8px;
+    margin-top: 5px;
+    margin-right: 8px;
+    margin-left: 8px;
+    box-sizing: border-box; /* Asegura que los márgenes no afecten el ancho total */
+  }
+  
+  #submit-login {
+    background-color: #F19C79; /* Color naranja según tus preferencias */
+    color: #ffffff;
     border: none;
-    border-radius: 40px;
-    font-size: 1.2em;
-    color: #fff;
-    box-shadow: none;
-    outline: none;
-}
-.login .inputBox input::placeholder{
-    color: rgba(255, 255, 255, 0.75)
-}
-.login .links{
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-}
-.login .links a{
-    color: #bdbdbd;
+    padding: 10px 20px; /* Ajusta el relleno del botón */
+    font-size: 16px; /* Ajusta el tamaño de la fuente del botón */
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+  }
+  
+  /* Efecto de hover para el botón Sign in */
+  #submit-login:hover {
+    background-color: #FF6347; /* Color naranja más oscuro al pasar el cursor sobre el botón */
+  }
+  
+  /* Estilos de los enlaces */
+  .links a {
+    color: #F19C79; /* Color naranja según tus preferencias */
     text-decoration: none;
-    font-size: 1em;
-}
-.login .links a:hover {
-    transition: 1.2s;
-    font-size: 1.2em;
-    color: black;
-}
-.square{
-    position: absolute;
-    width: 500px;
-    height: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-   
-}
-.square i{
-    position: absolute;
-    inset: 0;
-    border: 1px solid #fff;
-    transition: 0.5s;
-}
-.square i:nth-child(1){
-    border-radius: 50% 62% 63% 37% / 41% 44% 56% 59%;
-    animation: animate 10s linear infinite;
-}
-.square i:nth-child(2){
-    border-radius: 41% 44% 56% 50% / 38% 62% 63% 37%;
-    animation: animate 50s linear infinite;
-}
-
-.square i:nth-child(3){
-    border-radius: 41% 44% 56% 59% / 38% 62% 63% 37%;
-    animation: animate2 30s linear infinite;
-}
-/*.square:hover i{
-    border: 6px solid var(--clr);
-    filter: drop-shadow(0 0 20px var(--clr))
-} */
-@keyframes animate{
-    0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        transform: rotate(360deg);
-    }
-}
-@keyframes animate2{
-    0%{
-        transform: rotate(360deg);
-    }
-    100%{
-        transform: rotate(0deg);
-    }
-}
-
-
+    margin: 0 10px;
+  }
+  
+  /* Efecto de hover para los enlaces */
+  .links a:hover {
+    color: #FF6347; /* Color naranja más oscuro al pasar el cursor sobre el enlace */
+  }
 
 
 
 
 /*--------------------------products---------------------------------*/
-
-
-
-.producto{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 0.25fr 0.25fr 1fr;
-    width:300px;
-    height: fit-content;
-    text-align: center;
-    font-size: medium;
-    border: 2.5px solid black;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.productInfo{
+/* Estilos de la barra de navegación */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e2e8ce; /* Cambio del color de fondo de la página */
+  }
+  
+  /* Estilos de la barra de navegación */
+  .headerLogout {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 10px;
+    text-align: right;
+  }
+  
+  .headerLogout a {
+    text-decoration: none;
+    color: #ffffff;
+    margin-left: 10px;
+  }
+  
+  /* Estilos del contenedor principal de productos */
+  .productContainer {
     display: flex;
     flex-direction: column;
-    
-    
-}
+    align-items: center;
+    width: 100%;
+    padding-top: 15px;
+  }
+  
+  /* Estilos del título de productos */
+  .productsTitle {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Estilos del contenedor de productos */
+  .productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    justify-items: center;
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  /* Estilos de cada producto */
+  .producto {
+    border: 1px solid black;
+    width: 100%;
+    max-width: 200px;
+    height: 250px; /* Se aumenta la altura para acomodar la nueva distribución */
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .producto img {
+    width: 100%;
+    height: 50%; /* La imagen ocupa la mitad superior de la tarjeta */
+    object-fit: cover; /* Para que la imagen se ajuste correctamente */
+    margin: 0 -1px 1px -1px; /* Espaciado de 1px hacia todos los lados */
+  }
+  
+  .productTitle {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .productStock {
+    font-size: 14px;
+    color: gray; /* Cambio del color a gris */
+    margin-bottom: 5px;
+  }
+  
+  .productPrice {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* Estilos del botón */
+  .button {
+    background-color: #f19c79;
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    align-self: flex-end;
+    margin-top: auto;
+    transition: background-color 0.3s ease; /* Agregamos una transición al color de fondo */
+  }
+  
+  /* Efecto de hover */
+  .button:hover {
+    background-color: #ff6347; /* Color llamativo al pasar el cursor sobre el botón */
+  }
+  
+  .siguienteAnterior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 20px auto;
+  }
+  
+  .siguienteAnterior button {
+    background-color: #4caf50; /* Tonalidad verdosa */
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease; /* Agregamos una transición al color de fondo */
+  }
+  
+  /* Efecto de hover para el botón de siguiente */
+  .siguienteAnterior button:hover {
+    background-color: #45a049; /* Color llamativo verdoso al pasar el cursor sobre el botón */
+  }
 
-p{
-    color: black;
-}
-
-ul{
+  /*--------------------register------------------------------*/
+  
+  /* Estilos para el contenedor principal de registro */
+.register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #E2E8CE;
+  }
+  
+  /* Estilos para el título de registro */
+  .register-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el formulario de registro */
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  
+  /* Estilos para las etiquetas del formulario */
+  .form-label {
+    margin-bottom: 5px;
+  }
+  
+  /* Estilos para los campos de entrada del formulario */
+  .form-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  /* Estilos para el botón de envío del formulario */
+  .submit-button {
+    background-color: #F19C79;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto de hover para el botón de envío */
+  .submit-button:hover {
+    background-color: #FF6347;
+  }
+  
+  /* Estilos para el mensaje adicional de inicio de sesión */
+  .login-prompt {
+    margin-top: 20px;
+  }
+  
+  /* Estilos para el enlace de inicio de sesión */
+  .login-link {
     text-decoration: none;
-}
+  }
+  
+  /* Estilos para el botón de inicio de sesión */
+  .login-button {
+    background-color: #F19C79;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto de hover para el botón de inicio de sesión */
+  .login-button:hover {
+    background-color: #FF6347;
+  }
+
+  /*-----------------------cart-----------------------------*/
+  /* Estilos para el contenedor principal del carrito */
+.cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #E2E8CE;
+  }
+  
+  /* Estilos para el título del carrito */
+  .cart-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para cada ítem en el carrito */
+  .cart-item {
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para la información de cada ítem en el carrito */
+  .item-info {
+    margin: 5px 0;
+  }
+  
+  /* Estilos para la línea divisora entre ítems */
+  .item-divider {
+    border: 1px solid #000;
+    margin: 10px 0;
+  }
+  
+  /* Estilos para el botón de finalizar compra */
+  .finish-button {
+    background-color: #F19C79;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto de hover para el botón de finalizar compra */
+  .finish-button:hover {
+    background-color: #FF6347;
+  }
+  /*----------------------recover Password------------------*/
+  /* Agregamos estilos generales para el contenedor principal */
+.recover-password-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #E2E8CE;
+  }
+  
+  /* Estilos para el título */
+  .recover-password-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el formulario */
+  .recover-password-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+  }
+  
+  /* Estilos para la etiqueta del correo electrónico */
+  .recover-password-label {
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para el campo de entrada del correo electrónico */
+  .recover-password-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para el botón de enviar */
+  .recover-password-submit {
+    background-color: #F19C79;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto de hover para el botón de enviar */
+  .recover-password-submit:hover {
+    background-color: #FF6347;
+  }
+  
+  /* Estilos para el enlace de retorno y el botón */
+  .recover-password-return-link {
+    margin-top: 20px;
+    text-decoration: none;
+  }
+  
+  .recover-password-return-button {
+    background-color: #f19c79;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto de hover para el botón de retorno */
+  .recover-password-return-button:hover {
+    background-color: #FF6347;
+  }
+
+  /*-------------recover-passs-----------------*/
+
+  /* Agregamos estilos generales para el contenedor principal */
+.reset-password-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #E2E8CE;
+  }
+  
+  /* Estilos para el título */
+  .reset-password-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el formulario */
+  .reset-password-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+  }
+  
+  /* Estilos para la etiqueta de la nueva contraseña */
+  .reset-password-label {
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para el campo de entrada de la nueva contraseña */
+  .reset-password-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para el botón de enviar */
+  .reset-password-submit {
+    background-color: #F19C79;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto de hover para el botón de enviar */
+  .reset-password-submit:hover {
+    background-color: #FF6347;
+  }
+  
+  /* Estilos para el enlace de retorno y el botón */
+  .reset-password-return-link {
+    margin-top: 20px;
+    text-decoration: none;
+  }
+  
+  .reset-password-return-button {
+    background-color: #f19c79;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto de hover para el botón de retorno */
+  .reset-password-return-button:hover {
+    background-color: #FF6347;
+  }
+  
+  

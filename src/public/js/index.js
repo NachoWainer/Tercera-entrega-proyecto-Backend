@@ -1,3 +1,4 @@
+
 const socket=io();
 
 const addToCartButton = document.getElementById("AddToCart");
@@ -105,3 +106,11 @@ chatBox.addEventListener("keyup",evt=>{
       })
       log.innerHTML = messages
     })
+    /////////////////////////////////////
+  function mostrarAvisoError() {
+      Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Credenciales incorrectas. Por favor, inténtalo de nuevo.',
+      });
+  }

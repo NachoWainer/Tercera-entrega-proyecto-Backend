@@ -1,5 +1,6 @@
 <header class="headerLogout">
-  <a href="/logout"> <button>logout</button></a>
+  <a class="logoutButton" href="/logout"> <button class="button">logout</button></a>
+  <a class="cartButton " href="/cart"> <button class="button">cart</button></a>
 </header>
 <div>
 {{#if admin}}
@@ -9,34 +10,44 @@
 {{/if}}
  
 <hr/>  
-  <h2>Productos disponibles</h2>
+  <h2 class="productsTitle">Productos disponibles</h2> 
+<div class="productContainer">
+  <div class="productos">
 {{#if admin}}
   {{#each payload}}
-    <p>{{title}}</p>
-    <p>Disponibles:{{stock}}</p> 
-    <a data-eliminate-product-id="{{id}}"><button>eliminar producto</button></a>
-    <p>${{price}}</p>
-    <a data-product-id="{{id}}"><button>Add to cart</button></a>
+  <div class="producto">
+    <p class="productTitle">{{title}}</p>
+    <img class="productImage" src="{{img}}" alt="">
+    <p class="productStock">Disponibles: {{stock}}</p> 
+
+    <a data-eliminate-product-id="{{id}}"><button class="button">eliminar producto</button></a>
+    <p class="productPrice">${{price}}</p>
+    <a class="" data-product-id="{{id}}"><button class="button">Add to cart</button></a>
+  </div>
     <hr/>
     {{/each}}
 {{else}}
     {{#each payload}}
 
-    <div>
-    <p>{{title}}</p>
-    <p>Disponibles:{{stock}}</p> 
-    <p>${{price}}</p>
-    <a data-product-id="{{id}}"><button>Add to cart</button></a>
+    <div class="producto">
+    <p class="productTitle">{{title}}</p>
+    <p class="productStock">Disponibles: {{stock}}</p> 
+    <p class="productPrice">${{price}}</p>
+    <a class="" data-product-id="{{id}}"><button class="button">Add to cart</button></a>
     </div>
 
     {{/each}}
+  <div class="siguienteAnterior">
     {{#if hasPrevPage}}
     <a href="/products?{{prevLink}}"><button>Anterior</button></a>
     {{/if}}
      {{#if hasNextPage}}
     <a href="/products?{{nextLink}}"><button>Siguiente</button></a>
     {{/if}}
+  </div>
 {{/if}}
+</div>
+</div>
 </div>
 
 <script>
@@ -89,26 +100,5 @@
 
 
   </script>
-
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/index.js"></script>
-<!--
-
-{{#each payload}}
-    <p>{{id}}</p>
-    <p>{{title}}</p>
-    <p>{{category}}</p>
-    <p>{{stock}}</p>
-    <p>{{price}}</p>
-    {{/each}}
- 
-    {{#if hasPrevPage}}
-    <a href={{prevLink}}><button>Anterior</button></a>
-    {{/if}}
-     {{#if hasNextPage}}
-    <a href={{nextLink}}><button>Siguiente</button></a>
-    {{/if}}
-
-
-
--->

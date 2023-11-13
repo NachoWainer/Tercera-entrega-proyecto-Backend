@@ -1,4 +1,5 @@
 
+
 const form= document.getElementById("loginForm")
 
 form.addEventListener("submit", e =>{
@@ -15,14 +16,15 @@ form.addEventListener("submit", e =>{
             "Content-type":"application/json"
         }
     })
-    .then(result => {
-        console.log(result)
+    .then(response => {
         
-        if(result.status === 200){
+        if(response.status === 200){
             window.location.replace('/products')
         }
         else{
-            window.location.replace('/')
+            mostrarAvisoError()
+      
+            //window.location.replace('/')
 
         }
 
