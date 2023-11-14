@@ -27,7 +27,7 @@ const upload = multer({ storage: storage });
 const router = Router();
 
 router.get('/premium/:uid',notAdmin,changeRole) 
-router.post('/:uid/documents',upload.single('file'),documentUpload) //terminar
+router.post('/:uid/documents',upload.single('file'),documentUpload) 
 
 router.get('/',getAllUsers) //get all users dto (nombre correo rol)
 router.delete('/',deleteUsers)// limpia todos los usuarios sin conexion en los utlimos 2 dias

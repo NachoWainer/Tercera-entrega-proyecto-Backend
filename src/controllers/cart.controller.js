@@ -2,6 +2,8 @@
 import { CartService } from "../services/cart.service.js"
 import { ProductService } from "../services/product.service.js"
 import { TicketService } from "../services/ticket.service.js"
+import { transporter } from '../middlewares/mail.js';
+
 
 
 
@@ -166,6 +168,20 @@ class CartController{
               req.session.user.email,
               totalCompra,
             );
+
+           
+            
+            let mailOptions = {
+                from: 'nachocodertest@gmail.com',
+                to: `${ticket.purchaser}`,
+                subject: 'Orden de compra',
+                text: `Codigo de la compra: ${ticket.code}
+                fecha de compra: ${ticket.purchase_datetime}
+                total de la compra:${ticket.amount}  `,
+              };
+
+             const result = await transporter.sendMail(mailOptions)
+             req.logger.info(result)
             
             res.send({ payload: ticket });
           } else {

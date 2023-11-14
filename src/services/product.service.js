@@ -7,6 +7,7 @@ export class ProductService{
     async addProduct(user,
         title, description, code, price, status, stock, category, thumbnail){
             let message,stats,data
+            
             if (!isNaN(title)||!isNaN(description)||!isNaN(category)||!isNaN(code))throw new HttpError('title description category and code must be text', HTTP_STATUS.BAD_REQUEST);
             if (title === undefined || title.replace(/\s/g, '') === "" || description.replace(/\s/g, '') === "" ||description === undefined || 
                 category.replace(/\s/g, '') === ""|| category === undefined || price === undefined || code.replace(/\s/g, '') === ""|| code === undefined || stock === undefined) {
@@ -17,7 +18,10 @@ export class ProductService{
             }
             if (status === undefined) status = true
             if (isNaN(stock) || Number(stock) === null || isNaN(price) || Number(price) === null) throw new HttpError('price and stock fields must be numbers', HTTP_STATUS.BAD_REQUEST);
+            console.log("HOLA")
+            
             const content = await productsDao.getProducts();  
+        
             if (content.find(element => element.code === code)){
                 throw new HttpError('Code not available', HTTP_STATUS.BAD_REQUEST);
                 message='Code not available'
@@ -27,6 +31,7 @@ export class ProductService{
             let owner = "admin"
             if (user != undefined && user.role === "premium") owner = user.email
             const product = await productsDao.addProduct(title, description, code, price, status, stock, category, thumbnail,owner)
+
             emitRealTimeProducts()
             if (product){
                 message='OK'

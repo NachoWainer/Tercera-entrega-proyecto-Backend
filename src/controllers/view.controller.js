@@ -30,7 +30,7 @@ class ViewController{
     logout (req,res){
         req.session.destroy(error => {
             if (error) res.json({error: "error logout", mensaje: "Error al cerrar sesion"})
-            res.send("sesion cerrada correctamente")
+            res.redirect("/")
         })
     }
     realTimeProducts (req,res){ res.render('realTimeProducts',{})}
@@ -68,15 +68,17 @@ class ViewController{
             if (sortParam == "asc") sort = {price:1}
             if (sortParam == "desc") sort = {price:-1}
         }  
-        let query = {}
-        const queryParam = (req.query.query != undefined) ? req.query.query : null 
+        let query;
+        const queryParam = (req.query != undefined) ? req.query.query : null 
+        
         if  (queryParam !== undefined ) {
             if (queryParam == "disponibilidad") query = {stock: {$gt: 0}}
-            query = {categoria: {$eq: queryParam}}
+            query = {category: {$eq: queryParam}}
+  
         }  
            
     try {
-        const{docs,hasPrevPage,hasNextPage,nextPage,prevPage,totalPages} = await productsModel.paginate({},{limit:limite,page,sort:sort,query,lean:true})
+        const{docs,hasPrevPage,hasNextPage,nextPage,prevPage,totalPages} = await productsModel.paginate(query,{limit:limite,page,sort:sort,lean:true})
         let user = req.session.user
         const payload =docs 
         const status = "success"

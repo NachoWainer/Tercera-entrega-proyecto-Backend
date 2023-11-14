@@ -11,13 +11,21 @@
  
 <hr/>  
   <h2 class="productsTitle">Productos disponibles</h2> 
+<div class="buttonHolder">
+ <div class="selectionButtons">
+    <a href="/products?page=1&limit=10"><button class="button">TODOS</button></a>
+    <a href="/products?query=dulce&page=1&limit=10"><button class="button">DULCES</button></a>
+    <a href="/products?query=salado&page=1&limit=10"><button class="button">SALADOS</button></a>
+  </div>
+  </div>
+
 <div class="productContainer">
   <div class="productos">
 {{#if admin}}
   {{#each payload}}
   <div class="producto">
     <p class="productTitle">{{title}}</p>
-    <img class="productImage" src="{{img}}" alt="">
+    <img class="productImage" src="{{thumbnail}}" alt="">
     <p class="productStock">Disponibles: {{stock}}</p> 
 
     <a data-eliminate-product-id="{{id}}"><button class="button">eliminar producto</button></a>
@@ -31,6 +39,7 @@
 
     <div class="producto">
     <p class="productTitle">{{title}}</p>
+     <img class="productImage" src="{{thumbnail}}" alt="">
     <p class="productStock">Disponibles: {{stock}}</p> 
     <p class="productPrice">${{price}}</p>
     <a class="" data-product-id="{{id}}"><button class="button">Add to cart</button></a>

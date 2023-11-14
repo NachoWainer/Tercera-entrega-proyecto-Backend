@@ -1,62 +1,203 @@
 [
 	{
-		"id": 1,
-		"title": "hola",
-		"description": "description",
-		"code": "123abc",
-		"price": 200,
+		"title": "Sandwich de garbanzos",
+		"description": "sandwich de garbanzos con salsa buffalo",
+		"code": "123456",
+		"price": 100,
 		"status": true,
-		"stock": 33,
-		"category": "category"
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/b9/db/b9dbb034029ca0cd557471cadc62135e.jpg",
+		"owner":"nachowainer@gmail.com"
 	},
 	{
-		"id": 2,
-		"title": "Producto5",
-		"description": "description",
-		"code": "124abcd",
+		"title": "Chow Mein vegano",
+		"description": "fideos chiow mein vegetariano",
+		"code": "1A2B58",
 		"price": 200,
 		"status": true,
-		"stock": 33,
-		"category": "category"
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/53/2f/532f60644bff6dc9e373556e63a3f403.jpg",
+		"owner":"nachowainer@gmail.com"
 	},
 	{
-		"id": 3,
-		"title": "Producto5",
-		"description": "description",
-		"code": "124abcde",
-		"price": 200,
+		"title": "Ensalada picante de pepinos",
+		"description": "ensalada de pepinos con chili y mani",
+		"code": "Ps68ABB",
+		"price": 90,
 		"status": true,
-		"stock": 33,
-		"category": "category"
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/37/eb/37eb38c7fb8d8d4fda3d540010a5483e.jpg",
+		"owner":"nachowainer@gmail.com"
 	},
 	{
-		"id": 4,
-		"title": "Producto5",
-		"description": "description",
-		"code": "124abcdef",
-		"price": 200,
+		"title": "Wrap de tofu y mostaza",
+		"description": "Wrap vegano de mostaza y tofu",
+		"code": "9822H",
+		"price": 120,
 		"status": true,
-		"stock": 33,
-		"category": "category"
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/8b/20/8b204679c9962959868ccf27d2466d2e.jpg",
+		"owner":"nachowainer@gmail.com"
 	},
 	{
-		"id": 5,
-		"title": "Producto5",
-		"description": "description",
-		"code": "124abcdefgh",
-		"price": 200,
+		"title": "Soto Ayam",
+		"description": "Sopa de pollo indonesa",
+		"code": "89R4TAA",
+		"price": 180,
 		"status": true,
-		"stock": 33,
-		"category": "category"
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/bf/87/bf87aa8de467d5cf2f56474c46df9592.jpg",
+		"owner":"nachowainer@gmail.com"
 	},
 	{
-		"id": 6,
-		"title": "Producto5",
-		"description": "description",
-		"code": "124abcdefgjh",
-		"price": 200,
+		"title": "Tostada Gado Gado",
+		"description": "Tostada con verduras frescas",
+		"code": "89R4BBA",
+		"price": 75,
 		"status": true,
-		"stock": 33,
-		"category": "category"
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/96/3b/963b4da712066e5d68a0413f8b9ffa53.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Tacos de coliflor",
+		"description": "Tacos de coliflor con garbanzos picantes",
+		"code": "89E78BBA",
+		"price": 225,
+		"status": true,
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/8a/ac/8aacfe45c26bda24abcc327f7e666bba.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Chili de papa picante",
+		"description": "Chili especiado de papoa picante",
+		"code": "LK52PO",
+		"price": 110,
+		"status": true,
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/26/ec/26ec5a58706e38495f1df56f96b23b33.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Tofu Masala",
+		"description": "Tofu a la tika masala",
+		"code": "L66PLK",
+		"price": 220,
+		"status": true,
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/11/1d/111d52f7deb5ce37b1316d18ad920429.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Miso Ramen",
+		"description": "Sopa tipo ramen especiada",
+		"code": "KKL0049",
+		"price": 250,
+		"status": true,
+		"stock": 100,
+		"category": "salado",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/5c/9a/5c9ad69ff4aef1643e5fcb550459cad5.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+
+	{
+		"title": "Kaiserschmarrn",
+		"description": "Compota de higos",
+		"code": "JA0049",
+		"price": 150,
+		"status": true,
+		"stock": 100,
+		"category": "dulce",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/1b/1b/1b1b8442fccb86c1ba264c01b5b6b9fc.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Tarta de calabaza",
+		"description": "Tarta de calabaza y merengue",
+		"code": "LAN7899",
+		"price": 180,
+		"status": true,
+		"stock": 100,
+		"category": "dulce",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/13/07/1307ec86e103a7f45eb2a327879f8793.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Postre de mango",
+		"description": "Crema de mango",
+		"code": "PLJ229",
+		"price": 110,
+		"status": true,
+		"stock": 100,
+		"category": "dulce",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/a7/d7/a7d718b5c0f3e35f67d2a342a72087da.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Mouse de chocolate",
+		"description": "Crema de chocolate y frambuesas",
+		"code": "LAPJ55",
+		"price": 190,
+		"status": true,
+		"stock": 100,
+		"category": "dulce",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/fa/8c/fa8cb1056fd642882ab83148899ab1fd.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Tiramisu",
+		"description": "Crema de cafe",
+		"code": "7882LA",
+		"price": 150,
+		"status": true,
+		"stock": 100,
+		"category": "dulce",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/3c/48/3c4899ee15ebb4133976892ca62f7120.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Brownie de chocolate",
+		"description": "Torta tipo brownie",
+		"code": "78P9LA",
+		"price": 75,
+		"status": true,
+		"stock": 100,
+		"category": "dulce",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/5a/df/5adf9f7fd0a28eac9e1ccef6d6527a2d.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Arroz con leche",
+		"description": "Arroz con leche y canela",
+		"code": "764ELA",
+		"price": 135,
+		"status": true,
+		"stock": 100,
+		"category": "dulce",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/d5/e5/d5e55683a655172d224c1ae6df04aaed.jpg",
+		"owner":"nachowainer@gmail.com"
+	},
+	{
+		"title": "Torta de vainilla",
+		"description": "torta de vainilla y caramelo",
+		"code": "LJJ6533",
+		"price": 115,
+		"status": true,
+		"stock": 100,
+		"category": "dulce",
+		"thumbnail":"https://cdn.pickuplimes.com/cache/f9/24/f92485a865ab0cf2e0589ea4d4bd0c92.jpg",
+		"owner":"nachowainer@gmail.com"
 	}
+
+
 ]

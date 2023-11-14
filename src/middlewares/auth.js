@@ -27,7 +27,6 @@ export function adminRole(req,res,next){
     else res.status(403).send("access denied, must be admin")}
 }
 export function premiumRole(req,res,next){
-    console.log(process.env.MODO)
     if (process.env.MODO === "TEST") next();
     else{
     const user = req.session.user;

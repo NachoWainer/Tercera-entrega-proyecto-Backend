@@ -3,7 +3,8 @@ import productsModel from "../../schemas/products.schema.js"
 export class ProductsDAO{
 
    async getProducts(filter){
-        const data = await productsModel.find(filter).lean();  
+        const data = await productsModel.find(filter).lean(); 
+        console.log(data) 
         return data
     }
     async addProduct(title, description, code, price, status, stock, category, thumbnail){
